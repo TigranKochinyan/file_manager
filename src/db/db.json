@@ -1,26 +1,65 @@
 {
     "example_0": {
-        "name": "example_0",
+        "name": "example_01",
+        "type": "folder",
+        "id": "0",
         "folders": [
             {
+                "id": "1sss",
+                "type": "folder",
                 "name": "folderoOne",
+                "depth": 0,
                 "folders": [
                     {
+                        "id": "10",
+                        "type": "folder",
                         "name": "foldersa",
+                        "depth": 1,
                         "folders": [
                             {
+                                "id": "100",
                                 "name": "folders2222a",
+                                "type": "folder",
                                 "folders": [],
-                                "files": []
+                                "depth": 2,
+                                "files": [
+                                    {
+                                        "id": "100_0",
+                                        "name": "file_13",
+                                        "type": "file",
+                                        "depth": 3,
+                                        "content": "nothing"
+                                    },
+                                    {
+                                        "id": "100_1",
+                                        "name": "file_12",
+                                        "type": "file",
+                                        "depth": 3,
+                                        "content": "else"
+                                    },
+                                    {
+                                        "id": "100_2",
+                                        "name": "file_14",
+                                        "type": "file",
+                                        "depth": 3,
+                                        "content": "matters"
+                                    }
+                                ]
                             },
                             {
+                                "id": "101",
                                 "name": "folders3333333a",
+                                "type": "folder",
                                 "folders": [],
+                                "depth": 2,
                                 "files": []
                             },
                             {
+                                "id": "102",
                                 "name": "folders444444444a",
+                                "type": "folder",
                                 "folders": [],
+                                "depth": 2,
                                 "files": []
                             }
 
@@ -30,64 +69,98 @@
                 ],
                 "files": [
                     {
+                        "id": "1_0",
                         "name": "file_13",
+                        "type": "file",
+                        "depth": 1,
                         "content": "sssssssss0090sssssssqsss"
                     },
                     {
+                        "id": "1_1",
                         "name": "file_12",
+                        "type": "file",
+                        "depth": 1,
                         "content": "sssssss8ssssssssssss"
                     },
                     {
+                        "id": "1_2",
                         "name": "file_14",
+                        "type": "file",
+                        "depth": 1,
                         "content": "ssssssss7sssssssssss"
                     }
                 ]
             },
             {
+                "id": "2",
+                "name": "folderNoName",
+                "type": "folder",
+                "depth": 0,
                 "folders": [
                     {
+                        "id": "21",
                         "name": "file_11111111as",
+                        "depth": 1,
+                        "type": "folder",
                         "folders": [],
                         "files": []
                     },
                     {
+                        "id": "22",
                         "name": "file_2sssaw1",
+                        "depth": 1,
+                        "type": "folder",
                         "folders": [],
                         "files": [
-                            {
+                            {   
+                                "id": "22_0",
                                 "name": "fi34le_1",
+                                "type": "file",
+                                "depth": 2,
                                 "content": "ssssss5sssssssssssss"
                             }
                         ]
-                    },
-                    {
-                        "folders": [],
-                        "files": []
                     }
                 ],
                 "files": []
             },
             {
+                "id": "3",
+                "name": "alfredo",
+                "type": "folder",
+                "depth": 0,
                 "folders": [
                     {
+                        "id": "30",
                         "name": "file_1as",
+                        "type": "folder",
+                        "depth": 1,
                         "folders": [],
                         "files": [
                             {
+                                "id": "30_0",
                                 "name": "file_1aaaaaaaaaaaa",
+                                "type": "file",
+                                "depth": 2,
                                 "content": "ssssssss2sssssssssss"
                             },
                             {
+                                "id": "30_1",
                                 "name": "fqilewr_1",
+                                "type": "file",
+                                "depth": 2,
+                                "content": "sssssswwwwwwwwsssssssssssss"
+                            },
+                            {
+                                "id": "1334",
+                                "name": "fqilewr_122",
+                                "depth": 2,
+                                "type": "file",
                                 "content": "sssssswwwwwwwwsssssssssssss"
                             }
                         ]
                     }
                 ],
-                "files": []
-            },
-            {
-                "folders": [],
                 "files": []
             }
         ]

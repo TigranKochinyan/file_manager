@@ -1,14 +1,22 @@
-// import Folder from './components/Folder';
-// import File from './components/File';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+
+import useActions from './hooks/useActions';
 import Header from './components/Header';
-import LeftNavigation from './components/LeftNavigation';
-import RightSide from './components/RightSide';
-import ContainerMy from './components/Container';
 import Main from './pages/Main';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import './App.css';
 
 function App() {
+  const actions = useActions()
+
+  const state = useSelector(state => state)
+
+  useEffect(() => {
+    actions.getPostsApi({ limit: 10 })
+    actions.getCurrentFolder({ id: '1334' })
+  }, [])  
+
   return (
     <div className="App">
       <Router>

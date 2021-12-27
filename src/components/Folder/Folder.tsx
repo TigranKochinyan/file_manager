@@ -4,10 +4,11 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import styles from './index.module.scss';
 
 interface ChildrenArrProps {
+    id?: string;
     name?: string;
     type?: string;
     component?: JSX.Element | any;
-    folders?: FolderProps[];
+    folders?: FolderProps[] | any;
     files?: FileProp[];
 };
 
@@ -26,7 +27,7 @@ interface FolderProps {
 const Folder = ({name, childrens=[]}: FolderProps) => {
     const [childrensIsOpen, setChildrensIsOpen] = useState(false)
     const handleClick = (e): void => {
-        // console.log(e);
+        // console.log('folder:', name, 'childessssss', childrens);
         // console.log(e.ctrlKey);// when true add to selected items in store
         setChildrensIsOpen(!childrensIsOpen)
         
@@ -38,12 +39,12 @@ const Folder = ({name, childrens=[]}: FolderProps) => {
         </div>
         {
             childrensIsOpen && childrens.map((child: ChildrenArrProps) => {
-                return <div key={child.name} className={styles.folder_childrens}>
+                return <div key={child.id} className={styles.folder_childrens}>
                     {
                         child.folders && child.folders.map(folder => {
-                            console.log(folder.name, '----',folder);
+                            console.log(folder.name, '----', folder);
                             
-                            return <Folder name={folder.name} folders={folder.folders} childrens={folder.folders}/>
+                            return <Folder key={folder.id} name={folder.name} folders={folder.folders} childrens={folder.folders}/>
                         })
                     }
                 </div>
