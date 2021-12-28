@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router';
 
 import { FoldersInfo } from '../../store/types';
 import useActions from '../../hooks/useActions';
@@ -14,17 +13,10 @@ const LeftNavigation = () => {
     const foldersInfo = useSelector((state: FoldersInfo) => {
         return state.foldersInfo
     })
-    
-    const location = useLocation();
 
-    useEffect((): void => {
-        const ids: string[] = location.pathname.split('/').slice(1)
-        const roads = ids.map((name, idIndex) => {
-            const url = location.pathname.split('/').slice(0, idIndex + 2).join('/')
-            return {name, url}
-        })
-    }, [location])
-
+    const currentFolder = useSelector((state: FoldersInfo) => {
+        return state.curentFolder;
+    })
 
     useEffect(() => {
         actions.getFoldersInfo({ l: 4 })
@@ -37,11 +29,13 @@ const LeftNavigation = () => {
             foldersInfo.example_0.folders.map(item => {
                 return (
                     <Item 
-                        key={item.id} 
+                        key={item.id}
+                        id={item.id}
                         name={item.name}
                         folders={item.folders}
                         files={item.files}
                         depth={item.depth}
+                        activeId={currentFolder?.id}
                     />
                 )
             })

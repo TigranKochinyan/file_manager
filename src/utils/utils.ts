@@ -1,7 +1,3 @@
-export const getBreadCrumbs = (data, id) => {// TODO add brandCrumbs From Id 
-    return null
-}
-
 export const getObject = (data: any, id: string | number): any | null => {//TODO change "any"_s to types or interfaces
     var result = null;
     if(data instanceof Array) {
@@ -14,7 +10,6 @@ export const getObject = (data: any, id: string | number): any | null => {//TODO
     }
     else {
         for(var prop in data) {
-            console.log(prop + ': ' + data[prop]);
             if(prop === 'id') {
                 if(data[prop] === id) {
                     return data;
@@ -29,4 +24,17 @@ export const getObject = (data: any, id: string | number): any | null => {//TODO
         }
     }
     return result;
+}
+
+export const getBreadCrumbs = (path) => {
+    const ids: string[] = path.split('/').slice(1)
+    const roads: { name: string, url: string }[] = ids.map((name, idIndex) => {
+        const url: string = path.split('/').slice(0, idIndex + 2).join('/')
+        return {name, url}
+    })
+    return roads;
+}
+
+export const idGenerator = (parentId: number) => {
+    return parentId++;
 }

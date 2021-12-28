@@ -6,7 +6,7 @@ export type File = {
 }
 
 export type CurrentFolder = {
-    id: string;
+    id: number;
     name: string;
     depth: number;
     folders: CurrentFolder[];
@@ -15,18 +15,7 @@ export type CurrentFolder = {
 }
 
 export type FolderId = {
-    id: string;
-} 
-
-export type GetPostsApiPayload = {
-    limit: number
-}
-
-export type PostType = {
-    userId: number
-    id: number
-    title: string
-    body: string
+    id: number;
 }
 
 export type FoldersInfo = {

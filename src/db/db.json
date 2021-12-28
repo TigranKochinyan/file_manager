@@ -2,43 +2,50 @@
     "example_0": {
         "name": "example_01",
         "type": "folder",
-        "id": "0",
+        "id": 0,
+        "parentId": null,
         "folders": [
             {
-                "id": "1sss",
+                "id": 1,
+                "parentId": 0,
                 "type": "folder",
                 "name": "folderoOne",
                 "depth": 0,
                 "folders": [
                     {
-                        "id": "10",
+                        "id": 2,
+                        "parentId": 1,
                         "type": "folder",
                         "name": "foldersa",
                         "depth": 1,
                         "folders": [
                             {
-                                "id": "100",
+                                "id": 3,
+                                "parentId": 2,
                                 "name": "folders2222a",
                                 "type": "folder",
                                 "folders": [],
                                 "depth": 2,
                                 "files": [
                                     {
-                                        "id": "100_0",
+                                        "id": 4,
+                                        "parentId": 3,
                                         "name": "file_13",
                                         "type": "file",
                                         "depth": 3,
                                         "content": "nothing"
                                     },
                                     {
-                                        "id": "100_1",
+                                        "id": 5,
+                                        "parentId": 3,
                                         "name": "file_12",
                                         "type": "file",
                                         "depth": 3,
                                         "content": "else"
                                     },
                                     {
-                                        "id": "100_2",
+                                        "id": 6,
+                                        "parentId": 3,
                                         "name": "file_14",
                                         "type": "file",
                                         "depth": 3,
@@ -47,7 +54,8 @@
                                 ]
                             },
                             {
-                                "id": "101",
+                                "id": 7,
+                                "parentId": 2,
                                 "name": "folders3333333a",
                                 "type": "folder",
                                 "folders": [],
@@ -55,7 +63,8 @@
                                 "files": []
                             },
                             {
-                                "id": "102",
+                                "id": 8,
+                                "parentId": 2,
                                 "name": "folders444444444a",
                                 "type": "folder",
                                 "folders": [],
@@ -69,100 +78,32 @@
                 ],
                 "files": [
                     {
-                        "id": "1_0",
+                        "id": 9,
+                        "parentId": 1,
                         "name": "file_13",
                         "type": "file",
                         "depth": 1,
                         "content": "sssssssss0090sssssssqsss"
                     },
                     {
-                        "id": "1_1",
+                        "id": 10,
+                        "parentId": 1,
                         "name": "file_12",
                         "type": "file",
                         "depth": 1,
                         "content": "sssssss8ssssssssssss"
                     },
                     {
-                        "id": "1_2",
+                        "id": 11,
+                        "parentId": 1,
                         "name": "file_14",
                         "type": "file",
                         "depth": 1,
                         "content": "ssssssss7sssssssssss"
                     }
                 ]
-            },
-            {
-                "id": "2",
-                "name": "folderNoName",
-                "type": "folder",
-                "depth": 0,
-                "folders": [
-                    {
-                        "id": "21",
-                        "name": "file_11111111as",
-                        "depth": 1,
-                        "type": "folder",
-                        "folders": [],
-                        "files": []
-                    },
-                    {
-                        "id": "22",
-                        "name": "file_2sssaw1",
-                        "depth": 1,
-                        "type": "folder",
-                        "folders": [],
-                        "files": [
-                            {   
-                                "id": "22_0",
-                                "name": "fi34le_1",
-                                "type": "file",
-                                "depth": 2,
-                                "content": "ssssss5sssssssssssss"
-                            }
-                        ]
-                    }
-                ],
-                "files": []
-            },
-            {
-                "id": "3",
-                "name": "alfredo",
-                "type": "folder",
-                "depth": 0,
-                "folders": [
-                    {
-                        "id": "30",
-                        "name": "file_1as",
-                        "type": "folder",
-                        "depth": 1,
-                        "folders": [],
-                        "files": [
-                            {
-                                "id": "30_0",
-                                "name": "file_1aaaaaaaaaaaa",
-                                "type": "file",
-                                "depth": 2,
-                                "content": "ssssssss2sssssssssss"
-                            },
-                            {
-                                "id": "30_1",
-                                "name": "fqilewr_1",
-                                "type": "file",
-                                "depth": 2,
-                                "content": "sssssswwwwwwwwsssssssssssss"
-                            },
-                            {
-                                "id": "1334",
-                                "name": "fqilewr_122",
-                                "depth": 2,
-                                "type": "file",
-                                "content": "sssssswwwwwwwwsssssssssssss"
-                            }
-                        ]
-                    }
-                ],
-                "files": []
             }
-        ]
+        ],
+        "files": []
     }
 }

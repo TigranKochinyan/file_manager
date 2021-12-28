@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 
 import useActions from './hooks/useActions';
 import Header from './components/Header';
@@ -10,12 +9,9 @@ import './App.css';
 function App() {
   const actions = useActions()
 
-  const state = useSelector(state => state)
-
-  useEffect(() => {
-    actions.getPostsApi({ limit: 10 })
-    actions.getCurrentFolder({ id: '1334' })
-  }, [])  
+  // useEffect(() => {
+  //   actions.getCurrentFolder({ id: 0 })
+  // }, [])
 
   return (
     <div className="App">
@@ -28,7 +24,7 @@ function App() {
               <Route path="new" element={<RightSide />} />
               <Route index element={<>s</>} />
             </Route> */}
-            <Route path="/folders">
+            <Route path="folders" >
               <Route path="*" element={<Main />} />
             </Route>
           </Route>

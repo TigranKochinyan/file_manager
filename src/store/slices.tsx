@@ -1,20 +1,7 @@
 import { PayloadAction, combineReducers, createSlice } from '@reduxjs/toolkit'
 
 import { clearStore } from './actions'
-import { PostType, FoldersInfo, CurrentFolder } from './types'
-
-const posts = createSlice({
-  name: 'posts',
-  initialState: [] as Array<PostType>,
-  reducers: {
-    setPosts: (state, { payload }: PayloadAction<Array<PostType>>) => payload,
-    removePost: (state, { payload }: PayloadAction<number>) =>
-      state.filter(item => item.id !== payload),
-  },
-  extraReducers: {
-    [clearStore.type]: () => [],
-  },
-})
+import { FoldersInfo, CurrentFolder } from './types'
 
 const isLoading = createSlice({
   name: 'isLoading',
@@ -43,13 +30,11 @@ const currentFolder = createSlice({
     }
 })
 
-export const { setPosts, removePost } = posts.actions
 export const { setIsLoading } = isLoading.actions
 export const { setFoldersInfo } = foldersInfo.actions
 export const { setCurrentFolder } = currentFolder.actions
 
 export default combineReducers({
-  posts: posts.reducer,
   isLoading: isLoading.reducer,
   foldersInfo: foldersInfo.reducer,
   curentFolder: currentFolder.reducer,

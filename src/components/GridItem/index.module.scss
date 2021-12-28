@@ -1,6 +1,10 @@
 .gridItem {
+    padding: 10px;
+    text-align: center;
+    width: max-content;
     &:hover {
         // background-color: ;
+        cursor: pointer;
         opacity: 0.6;
     }
 }
