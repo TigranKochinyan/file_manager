@@ -1,7 +1,7 @@
 export const getObject = (data: any, id: string | number): any | null => {//TODO change "any"_s to types or interfaces
-    var result = null;
+    let result = null;
     if(data instanceof Array) {
-        for(var i = 0; i < data.length; i++) {
+        for(let i = 0; i < data.length; i++) {
             result = getObject(data[i], id);
             if (result) {
                 break;
@@ -9,7 +9,7 @@ export const getObject = (data: any, id: string | number): any | null => {//TODO
         }
     }
     else {
-        for(var prop in data) {
+        for(let prop in data) {
             if(prop === 'id') {
                 if(data[prop] === id) {
                     return data;
@@ -33,6 +33,16 @@ export const getBreadCrumbs = (path) => {
         return {name, url}
     })
     return roads;
+}
+
+export const getPathFromId = (data, id) => {
+    let path: number|string[] = [];
+    let currentItem = getObject(data, id);
+    while (currentItem.id !== 0) {
+        path.unshift(currentItem.id)
+        currentItem = getObject(data, currentItem.parentId)
+    }
+    return [...path].join('/');
 }
 
 export const idGenerator = (parentId: number) => {

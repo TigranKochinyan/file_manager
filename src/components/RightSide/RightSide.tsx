@@ -2,8 +2,6 @@ import { useSelector } from 'react-redux';
 import { FoldersInfo } from '../../store/types';
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router';
-import useActions from '../../hooks/useActions';
-import { getBreadCrumbs } from '../../utils/utils';
 
 import GridItem from '../GridItem';
 import ActionBttons from './ActionsButtons';
@@ -15,18 +13,17 @@ import Grid from '@mui/material/Grid';
 import styles from './index.module.scss';
 
 const RightSide = () => {
-    const location = useLocation();
-    const actions = useActions();
+    // const location = useLocation();
     const currentFolder = useSelector((state: FoldersInfo) => {
-        return state.curentFolder;
+        return state.app.currentItem;
     });
+    console.log('RIGHT_SIDE currentFolder', currentFolder);
+    
     const navigate = useNavigate();
 
     const handleDoubleClick = (id) => {
-        const roads = getBreadCrumbs(location.pathname)
-        console.log('sssssadsasad', roads);
         
-        navigate(`${roads[roads.length - 1].url}/${id}`);
+        // navigate(`${roads[roads.length - 1].url}/${id}`);
     };
 
     return <div className={styles.rightSide}>

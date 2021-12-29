@@ -1,8 +1,10 @@
 import { useState } from 'react';
-import { useLocation } from 'react-router';
-import useActions from '../../hooks/useActions';
 
-import { getBreadCrumbs } from '../../utils/utils';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../redux/reducers';
+import { useLocation, useNavigate } from 'react-router';
+
+import { getBreadCrumbs, getObject, getPathFromId } from '../../utils/utils';
 
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -22,7 +24,6 @@ interface ChildrenArrProps {
     id: string;
     name?: string;
     type?: string;
-    component?: JSX.Element | any;
     folders?: any;
     files?: any;
     depth: number;
@@ -30,76 +31,95 @@ interface ChildrenArrProps {
 };
 
 const Item = (props: ChildrenArrProps) => {
-    const actions = useActions()
     const [open, setOpen] = useState(false);
+
+    const dispatch = useDispatch()
     const location = useLocation();
+    let navigate = useNavigate();
+
+    const data = useSelector((state: RootState) => {
+        return state.app.data;
+    })    
 
     const handleClickList = (id) => {
         setOpen(!open);
-        actions.getCurrentFolder({id})
+        const newCurrentItem = getObject(data, id);
+        const roads = getPathFromId(data, id);
+        navigate(roads);
+        console.log('____________roadsss', roads);
+        
+
+        dispatch({ type: 'SET_CURRENT_ITEM', payload: newCurrentItem });
     };
 
     const handleClick = (id) => {
-        actions.getCurrentFolder({id})
+        const newCurrentItem = getObject(data, id);
+        const roads = getPathFromId(data, id);
+        console.log('____________roadsss +++', roads);
+        navigate(roads);
+        dispatch({ type: 'SET_CURRENT_ITEM', payload: newCurrentItem })
     };
 
-    return <>
-        <List
-            sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
-            component="nav"
-            aria-labelledby="nested-list-subheader"
-            classes={{ root: styles.navigation }}
+    return <List
+        sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+        component="nav"
+        aria-labelledby="nested-list-subheader"
+        classes={{ root: styles.navigation }}
+    >
+        <ListItemButton
+            className={props.activeId === props.id ? styles.list_active : ''}
+            sx={{ pl: props.depth + 2 }}
+            onClick={() => handleClickList(props.id)}
         >
-            <ListItemButton 
-                className={props.activeId === props.id ? styles.list_active : ''} 
-                sx={{ pl: props.depth + 2 }}
-                onClick={() => handleClickList(props.id)}
-            >
-                <ListItemIcon classes={{root: styles.listIcon}}>
-                    {!props.folders.length && !props.files.length ? <FolderOpenIcon/> : <FolderIcon />}
-                </ListItemIcon>
-                <ListItemText primary={props.name} />
-                {open ? <ExpandLess /> : <ExpandMore />}
-            </ListItemButton>
-            <Collapse in={open} timeout="auto" unmountOnExit>
+            <ListItemIcon classes={{ root: styles.listIcon }}>
                 {
-                    props.folders.map(item => {
-                        return (
-                            <Item
-                                key={item.id} 
-                                id={item.id}
-                                name={item.name}
-                                folders={item.folders}
-                                files={item.files}
-                                depth={item.depth}
-                                activeId={props.activeId}
-                            />
-                        )
-                    })
+                    props.type === 'file' ? <ArticleIcon /> :
+                        !props.folders.length && !props.files.length
+                            ? <FolderOpenIcon /> : <FolderIcon />
                 }
-                {
-                    props.files.map(file => {
-                        return (
-                            <List 
-                                className={props.activeId === file.id ? styles.list_active : ''}
-                                onClick={() => handleClick(file.id)}
-                                key={file.id}
-                                component="div"
-                                disablePadding
-                            >
-                                <ListItemButton sx={{ pl: file.depth + 2 }}>
-                                    <ListItemIcon classes={{root: styles.listIcon}}>
-                                        <ArticleIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary={file.name} />
-                                </ListItemButton>
-                            </List>
-                        )
-                    })
-                }
-            </Collapse>
-        </List>
-    </>
+            </ListItemIcon>
+            <ListItemText primary={props.name} />
+            {props.type === 'file' ? null : open ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+        <Collapse in={open} timeout="auto" unmountOnExit>
+            {
+                props.folders.map(item => {
+                    return (
+                        <Item
+                            key={item.id}
+                            id={item.id}
+                            name={item.name}
+                            folders={item.folders}
+                            files={item.files}
+                            depth={item.depth}
+                            activeId={props.activeId}
+                            type={item.type}
+                        />
+                    )
+                })
+            }
+            {
+                props.files.map(file => {
+                    return (
+                        <List
+                            className={props.activeId === file.id ? styles.list_active : ''}
+                            onClick={() => handleClick(file.id)}
+                            key={file.id}
+                            component="div"
+                            disablePadding
+                        >
+                            <ListItemButton sx={{ pl: file.depth + 2 }}>
+                                <ListItemIcon classes={{ root: styles.listIcon }}>
+                                    <ArticleIcon />
+                                </ListItemIcon>
+                                <ListItemText primary={file.name} />
+                            </ListItemButton>
+                        </List>
+                    )
+                })
+            }
+        </Collapse>
+    </List>
 }
 
 export default Item;

@@ -1,9 +1,7 @@
 {
-    "example_0": {
-        "name": "example_01",
-        "type": "folder",
+    "folders": {
+        "name": "root",
         "id": 0,
-        "parentId": null,
         "folders": [
             {
                 "id": 1,
@@ -104,6 +102,15 @@
                 ]
             }
         ],
-        "files": []
+        "files": [
+            {
+                "id": 12,
+                "parentId": 0,
+                "name": "file_mail",
+                "type": "file",
+                "depth": 0,
+                "content": "ssssssss7sssssssssss"
+            }
+        ]
     }
 }
