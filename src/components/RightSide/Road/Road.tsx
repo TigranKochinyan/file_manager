@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
-import Typography from '@mui/material/Typography';
+
+import { getBreadCrumbs } from '../../../utils/utils';
+
+import useActions from '../../../hooks/useActions';
+
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
 
@@ -11,23 +15,22 @@ interface RoadTypes {
     url: string,
 }
 
-const Header = () => {
+const Road = () => {
     const [roads, setRoads] = useState([{name: '', url: ''}])
     const location = useLocation();
 
+    const actions = useActions()
+
     useEffect((): void => {
-        const ids: string[] = location.pathname.split('/').slice(1)
-        const roads = ids.map((name, idIndex): RoadTypes => {
-            const url = location.pathname.split('/').slice(0, idIndex + 2).join('/')
-            return {name, url}
-        })
+        const roads = getBreadCrumbs(location.pathname)
+        actions.getCurrentFolder({id: Number(roads[roads.length - 1].name) || 1})
         setRoads(roads)
     }, [location])
 
-    return <div role="presentation" className={styles.header} onClick={():null => null}>
-      <Breadcrumbs classes={{ root: styles.bread, li: styles.li }} aria-label="breadcrumb">
-        {
-            roads.map((id, index) => {
+    return <div>
+        <h3>roadddddds</h3>
+        <Breadcrumbs classes={{ root: styles.bread, li: styles.li }} aria-label="breadcrumb">
+            {roads.map((id, index) => {
                 return <Link
                     key={`${id.name}-${index}`}
                     underline="hover"
@@ -36,10 +39,10 @@ const Header = () => {
                 >
                     {id.name}
               </Link>
-            })
-        }
-      </Breadcrumbs>
+            })}
+        </Breadcrumbs>
+
     </div>
 }
 
-export default Header;
+export default Road;

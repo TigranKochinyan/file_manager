@@ -1,14 +1,18 @@
-// import Folder from './components/Folder';
-// import File from './components/File';
+import { useEffect } from 'react';
+
+import useActions from './hooks/useActions';
 import Header from './components/Header';
-import LeftNavigation from './components/LeftNavigation';
-import RightSide from './components/RightSide';
-import ContainerMy from './components/Container';
 import Main from './pages/Main';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import './App.css';
 
 function App() {
+  const actions = useActions()
+
+  // useEffect(() => {
+  //   actions.getCurrentFolder({ id: 0 })
+  // }, [])
+
   return (
     <div className="App">
       <Router>
@@ -20,7 +24,7 @@ function App() {
               <Route path="new" element={<RightSide />} />
               <Route index element={<>s</>} />
             </Route> */}
-            <Route path="/folders">
+            <Route path="folders" >
               <Route path="*" element={<Main />} />
             </Route>
           </Route>

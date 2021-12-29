@@ -11,7 +11,7 @@ const Main = () => {
                 <LeftNavigation />
             </Grid>
             <Grid item xs={8}>
-                <RightSide/>
+                <RightSide />
             </Grid>
         </Grid>
         
