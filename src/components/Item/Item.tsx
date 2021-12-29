@@ -80,7 +80,13 @@ const Item = (props: ChildrenArrProps) => {
                 {
                     props.files.map(file => {
                         return (
-                            <List className={props.activeId === file.id ? styles.list_active : ''} onClick={() => handleClick(file.id)} key={file.id} component="div" disablePadding>
+                            <List 
+                                className={props.activeId === file.id ? styles.list_active : ''}
+                                onClick={() => handleClick(file.id)}
+                                key={file.id}
+                                component="div"
+                                disablePadding
+                            >
                                 <ListItemButton sx={{ pl: file.depth + 2 }}>
                                     <ListItemIcon classes={{root: styles.listIcon}}>
                                         <ArticleIcon />
