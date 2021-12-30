@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { RootState } from '../../redux/reducers';
-import { useLocation, useNavigate } from 'react-router';
 
 import { getBreadCrumbs, getObject, getPathFromId } from '../../utils/utils';
 
@@ -34,8 +34,6 @@ const Item = (props: ChildrenArrProps) => {
     const [open, setOpen] = useState(false);
 
     const dispatch = useDispatch()
-    const location = useLocation();
-    let navigate = useNavigate();
 
     const data = useSelector((state: RootState) => {
         return state.app.data;
@@ -43,20 +41,12 @@ const Item = (props: ChildrenArrProps) => {
 
     const handleClickList = (id) => {
         setOpen(!open);
-        const newCurrentItem = getObject(data, id);
-        const roads = getPathFromId(data, id);
-        navigate(roads);
-        console.log('____________roadsss', roads);
-        
-
-        dispatch({ type: 'SET_CURRENT_ITEM', payload: newCurrentItem });
     };
 
     const handleClick = (id) => {
         const newCurrentItem = getObject(data, id);
         const roads = getPathFromId(data, id);
         console.log('____________roadsss +++', roads);
-        navigate(roads);
         dispatch({ type: 'SET_CURRENT_ITEM', payload: newCurrentItem })
     };
 
@@ -78,7 +68,9 @@ const Item = (props: ChildrenArrProps) => {
                             ? <FolderOpenIcon /> : <FolderIcon />
                 }
             </ListItemIcon>
-            <ListItemText primary={props.name} />
+            <Link to={`/${props.id}`}>
+                <ListItemText primary={props.name} />
+            </Link>
             {props.type === 'file' ? null : open ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
         <Collapse in={open} timeout="auto" unmountOnExit>
@@ -103,7 +95,7 @@ const Item = (props: ChildrenArrProps) => {
                     return (
                         <List
                             className={props.activeId === file.id ? styles.list_active : ''}
-                            onClick={() => handleClick(file.id)}
+                            // onClick={() => handleClick(file.id)}
                             key={file.id}
                             component="div"
                             disablePadding
@@ -112,7 +104,9 @@ const Item = (props: ChildrenArrProps) => {
                                 <ListItemIcon classes={{ root: styles.listIcon }}>
                                     <ArticleIcon />
                                 </ListItemIcon>
-                                <ListItemText primary={file.name} />
+                                <Link to={`/${file.id}`}>
+                                    <ListItemText primary={file.name} />
+                                </Link>
                             </ListItemButton>
                         </List>
                     )

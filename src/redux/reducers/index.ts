@@ -1,8 +1,8 @@
 import { combineReducers } from "@reduxjs/toolkit";
-// import { connectRouter } from 'connected-react-router';
-// import { createBrowserHistory } from 'history';
+import { connectRouter } from 'connected-react-router';
+import { createBrowserHistory } from 'history';
 
-// export const history = createBrowserHistory();
+export const history = createBrowserHistory();
 
 interface InitialState {
     data: any;
@@ -51,7 +51,7 @@ export function appReducer(state: InitialState = initial, action) {
 
 const rootReducer = combineReducers({
     app: appReducer,
-    // router: connectRouter(history)
+    router: connectRouter(history)
 })
 
 export type RootState = ReturnType<typeof rootReducer>

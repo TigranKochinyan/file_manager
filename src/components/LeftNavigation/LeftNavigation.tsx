@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/reducers'
+import { RootState } from '../../redux/reducers';
 
 import Item from '../Item';
 
@@ -13,10 +13,7 @@ const LeftNavigation = () => {
     const currentFolder = useSelector((state: RootState) => {
         return state.app.currentItem;
     })
-
-    console.log('LEFT_SAID currentFolder', currentFolder);
     
-
     return <div className={styles.leftNavigation}>
         LeftNavigation
         {

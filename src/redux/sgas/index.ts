@@ -1,7 +1,6 @@
 import { call, spawn, all } from 'redux-saga/effects';
 import { loadBasicData } from './initialData';
 
-
 export default function* rootSaga() {
     const sagas = [loadBasicData]; // TODO add comments how its works
     const retrySagas = sagas.map(saga => {

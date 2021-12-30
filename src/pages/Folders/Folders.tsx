@@ -14,7 +14,6 @@ const Folders = () => {
                 <RightSide />
             </Grid>
         </Grid>
-
     </Container>
 }
 

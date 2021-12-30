@@ -23,7 +23,6 @@ const Road = () => {
 
     useEffect((): void => {
         const roads = getBreadCrumbs(location.pathname)
-        actions.getCurrentFolder({id: Number(roads[roads.length - 1].name) || 1})
         setRoads(roads)
     }, [location])
 
