@@ -7,6 +7,8 @@ import FeedIcon from '@mui/icons-material/Feed';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import Stack from '@mui/material/Stack';
 
+import ModalForm from '../ModalForm';
+
 import styles from './index.module.scss';
 
 interface ActionButtonsProps {
@@ -14,7 +16,10 @@ interface ActionButtonsProps {
 }
 
 const ActionBttons = ({parentId}) => {
+    // console.log('parentId', parentId);
+    
     return <Stack direction="row" spacing={2}>
+        <ModalForm />
         <Button 
             variant="contained" 
             onClick={() => history.push(`/${parentId ? parentId : ''}`)}

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { RootState } from '../../redux/reducers';
 
-import { getBreadCrumbs, getObject, getPathFromId } from '../../utils/utils';
+import { getObject, getPathFromId } from '../../utils/utils';
 
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -58,7 +58,7 @@ const Item = (props: ChildrenArrProps) => {
     >
         <ListItemButton
             className={props.activeId === props.id ? styles.list_active : ''}
-            sx={{ pl: props.depth + 2 }}
+            // sx={{ pl: props.depth + 2 }}
             onClick={() => handleClickList(props.id)}
         >
             <ListItemIcon classes={{ root: styles.listIcon }}>
@@ -74,7 +74,7 @@ const Item = (props: ChildrenArrProps) => {
             {props.type === 'file' ? null : open ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
         <Collapse in={open} timeout="auto" unmountOnExit>
-            {
+            {/* {
                 props.folders.map(item => {
                     return (
                         <Item
@@ -111,7 +111,7 @@ const Item = (props: ChildrenArrProps) => {
                         </List>
                     )
                 })
-            }
+            } */}
         </Collapse>
     </List>
 }

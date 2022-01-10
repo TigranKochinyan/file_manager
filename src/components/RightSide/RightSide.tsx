@@ -1,53 +1,17 @@
 import { useSelector } from 'react-redux';
 import { FoldersInfo } from '../../store/types';
-// import { useNavigate } from 'react-router-dom';
 import { history } from '../../redux/reducers';
 
-import GridItem from '../GridItem';
+// import GridItem from '../GridItem';
 import ActionBttons from './ActionsButtons';
 import Road from './Road';
-import ArticleIcon from '@mui/icons-material/Article';
 
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import styles from './index.module.scss';
 import CharacterFile from './CharacterFile';
+import CharacterFolder from './CharacterFolder';
 import { useState } from 'react';
-
-let testFiles = [
-    {
-        id: 41,
-        name: '12121',
-    },
-    {
-        id: 2,
-        name: '121 48 sss ',
-    },
-    {
-        id: 321,
-        name: '11    21',
-    },
-    {
-        id: 3111,
-        name: '121    21',
-    },
-    {
-        id: 2142,
-        name: '121 48 sss ',
-    },
-    {
-        id: 3465,
-        name: '11    21',
-    },
-    {
-        id: 7652,
-        name: '121 48 sss ',
-    },
-    {
-        id: 8678673,
-        name: '11    21',
-    },
-]
 
 const RightSide = () => {
     const currentFolder = useSelector((state: FoldersInfo) => {
@@ -56,9 +20,12 @@ const RightSide = () => {
 
     const [selectedItems, setSelectedItems]: any = useState([]);
 
-
     const handleDoubleClick = (id) => {
-        history.push(`/${id}`)
+        if(history.location.pathname === '/') {
+            history.push(`/${id}`)
+            return
+        }
+        history.push(`${history.location.pathname}/${id}`)
     };
 
     const handleClick = (event, id: number, blured: boolean = false ) => {
@@ -66,7 +33,6 @@ const RightSide = () => {
             setSelectedItems([])
             return;
         }
-        console.log('sssssssssssssssssss', blured);
         
         const newSelctedItems: number[] = [...selectedItems];
         console.log(newSelctedItems, id);
@@ -84,39 +50,36 @@ const RightSide = () => {
     }
 
     return <div className={styles.rightSide}>
-        RightSide
         <Road />
         <ActionBttons parentId={currentFolder?.parentId}/>
         {
             currentFolder?.type === 'file' ? 
             <Typography variant='subtitle1'>{currentFolder?.content}</Typography>
             :
-            (currentFolder && currentFolder.name) &&
+            currentFolder &&
                 <Grid container>
-                {currentFolder?.folders.map(folder => {
-                        return <Grid key={folder.id} item xs={4}>
-                            <GridItem
-                                id={folder.id}
-                                name={folder.name}
-                                type={folder.type}
-                                folders={folder.folders}
-                                files={folder.files}
-                            />
+                    dwwwwwwwwwww
+                    
+                {/* {currentFolder?.folders.map(folder => {
+                        return <Grid key={folder.id} item xs={3} onDoubleClick={() => handleDoubleClick(folder.id)}>
+                            <CharacterFolder  name={folder.name} />
                         </Grid>
                     })
                 }
                 {currentFolder?.files.map(file => {
-                        return <div key={file.id} onDoubleClick={() => handleDoubleClick(file.id)}> 
-                            <Grid item xs={4}>
-                                <ArticleIcon fontSize='large' />
-                                <Typography>{file.name}</Typography>
+                        return <Grid key={file.id} item xs={3} onDoubleClick={() => handleDoubleClick(file.id)}>
+                                <CharacterFile
+                                    handleClick={handleClick}
+                                    id={file.id}
+                                    name={file.name}
+                                    selected={selectedItems.includes(file.id)}
+                                />
                             </Grid>
-                        </div>
                     })
-                }
+                } */}
             </Grid>
         }
-        <div className={styles.df}>
+        {/* <div className={styles.df}>
             {
                 testFiles.map(file => {
                     return <div key={file.id} onDoubleClick={() => handleDoubleClick(file.id)}> 
@@ -125,6 +88,15 @@ const RightSide = () => {
                 })
             }
         </div>
+        <div className={styles.df}>
+            {
+                testFiles.map(file => {
+                    return <div key={file.id} onDoubleClick={() => handleDoubleClick(file.id)}> 
+                        <CharacterFolder name={'s'} />
+                    </div>
+                })
+            }
+        </div> */}
     </div>
 }
 

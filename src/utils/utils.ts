@@ -26,6 +26,10 @@ export const getObject = (data: any, id: string | number): any | null => {//TODO
     return result;
 }
 
+export const isEmptyObject = (obj) => {
+    return Object.keys(obj).length === 0 && Object.getPrototypeOf(obj) === Object.prototype;
+}
+
 export const getBreadCrumbs = (path) => {
     const ids: string[] = path.split('/').slice(1)
     const roads: { name: string, url: string }[] = ids.map((name, idIndex) => {
@@ -47,4 +51,8 @@ export const getPathFromId = (data, id) => {
 
 export const idGenerator = (parentId: number) => {
     return parentId++;
+}
+
+export const filterByIds = (data: any[], ids: number[]) => {
+    return data.filter(item => ids.includes(item.id))
 }

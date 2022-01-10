@@ -11,7 +11,7 @@ interface InitialState {
 }
 
 const initial = {
-    data: {},
+    data: [],
     currentItem: {}, // file or folder
     loadingData: false,
 }
@@ -31,6 +31,12 @@ export function appReducer(state: InitialState = initial, action) {
                 currentItem: action.payload
             }
         }
+        // case 'ADD_ITEM': {
+        //     return {
+        //         ...state,
+        //         currentItem: action.payload
+        //     }
+        // }
         case 'LOADING_DATA': {
             return {
                 ...state,

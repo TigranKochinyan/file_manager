@@ -10,7 +10,6 @@ function App() {
   return (
     <div className="App">
       <ConnectedRouter history={history}>
-        {/* <Header /> */}
         <Switch>
           <Route path="/">
             <Main />

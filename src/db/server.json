@@ -1,0 +1,210 @@
+{
+  "characters": [
+    {
+      "id": 1,
+      "parentId": 0,
+      "name": "first folder",
+      "type": "folder",
+      "children": [
+        4,
+        5
+      ],
+      "parents": []
+    },
+    {
+      "id": 2,
+      "parentId": 0,
+      "name": "first file",
+      "type": "file",
+      "content": "hello world",
+      "parents": []
+    },
+    {
+      "id": 3,
+      "parentId": 0,
+      "name": "first file",
+      "type": "file",
+      "content": "hello world",
+      "parents": []
+    },
+    {
+      "id": 4,
+      "parentId": 1,
+      "name": "second folder",
+      "type": "folder",
+      "children": [],
+      "parents": [
+        1
+      ]
+    },
+    {
+      "id": 5,
+      "parentId": 1,
+      "name": "third folder",
+      "type": "folder",
+      "children": [
+        6,
+        7
+      ],
+      "parents": [
+        1
+      ]
+    },
+    {
+      "id": 6,
+      "parentId": 5,
+      "name": "third file",
+      "type": "file",
+      "content": "hello world2",
+      "parents": [
+        1,
+        5
+      ]
+    },
+    {
+      "id": 7,
+      "parentId": 5,
+      "name": "no name file",
+      "type": "file",
+      "content": "empty text",
+      "parents": [
+        1,
+        5
+      ]
+    },
+    {
+      "id": 78,
+      "name": "Vardan",
+      "type": "folder",
+      "children": [],
+      "parents": []
+    },
+    {
+      "id": 72228,
+      "name": "Vardan2",
+      "type": "folder",
+      "children": [],
+      "parents": []
+    },
+    {
+      "id": 10,
+      "parentId": 0,
+      "name": "first file",
+      "type": "file",
+      "content": "hello worldwwwwwwwwwwwwwwwwww 21",
+      "parents": []
+    },
+    {
+      "id": 170,
+      "parentId": 0,
+      "name": "firsdddawt file",
+      "type": "file",
+      "content": "hello worldwwwwwwwwwwwwwwwwww 21",
+      "parents": []
+    },
+    {
+      "id": 77777778978,
+      "name": "Vardaeffffffffffffn",
+      "type": "folder",
+      "children": [],
+      "parents": []
+    },
+    {
+      "id": 54,
+      "name": "erevisao",
+      "type": "folder",
+      "parents": [
+        1
+      ],
+      "children": []
+    },
+    {
+      "id": 34,
+      "name": "sda",
+      "type": "folder",
+      "parents": [
+        1
+      ],
+      "children": []
+    },
+    {
+      "id": 88,
+      "name": "ddsa",
+      "type": "folder",
+      "parents": [
+        1
+      ],
+      "children": []
+    },
+    {
+      "id": 77777778979,
+      "name": "dasww qwe",
+      "type": "folder",
+      "parents": [],
+      "children": []
+    },
+    {
+      "id": 41,
+      "name": "c",
+      "type": "folder",
+      "parents": [],
+      "children": []
+    },
+    {
+      "id": 86,
+      "name": "csdadas",
+      "type": "folder",
+      "parents": [],
+      "children": []
+    },
+    {
+      "id": 83,
+      "name": "csdadasd",
+      "type": "folder",
+      "parents": [],
+      "children": []
+    },
+    {
+      "id": 14,
+      "name": "12",
+      "type": "folder",
+      "parents": [],
+      "children": []
+    },
+    {
+      "id": 99,
+      "name": "124",
+      "type": "folder",
+      "parents": [],
+      "children": []
+    },
+    {
+      "id": 27,
+      "name": "erevisao",
+      "type": "folder",
+      "parents": [],
+      "children": []
+    },
+    {
+      "id": 33,
+      "name": "12121",
+      "type": "folder",
+      "parents": [],
+      "children": []
+    },
+    {
+      "id": 66,
+      "name": "1212121",
+      "type": "folder",
+      "parents": [],
+      "children": []
+    },
+    {
+      "id": 39,
+      "name": "qdwa",
+      "type": "folder",
+      "parents": [],
+      "children": []
+    }
+  ]
+}

@@ -27,7 +27,6 @@ const Road = () => {
     }, [location])
 
     return <div>
-        <h3>roadddddds</h3>
         <Breadcrumbs classes={{ root: styles.bread, li: styles.li }} aria-label="breadcrumb">
             {roads.map((id, index) => {
                 return <Link
