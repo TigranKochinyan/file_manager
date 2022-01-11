@@ -1,3 +1,5 @@
+import { history } from '../../../redux/reducers';
+
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -7,7 +9,20 @@ import ArticleIcon from '@mui/icons-material/Article';
 
 import styles from './index.module.scss';
 
-const File = ({name, id, depth}) => {
+const pathCreator = (item) => {// folder or file data 
+    let path: number[] = [];
+    if (item.parents.length) {
+        path = [...item.parents]
+    }
+    path.push(item.id)
+    return path.join('/')
+}
+
+const File = ({name, id, parents}) => {
+    
+    const handleClickList = () => {
+        history.push(`/${pathCreator({id, parents})}`);
+    }
     return (
         <List 
             sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
@@ -15,11 +30,11 @@ const File = ({name, id, depth}) => {
             aria-labelledby="nested-list-subheader"
             classes={{ root: styles.navigation }}
         >
-            <ListItemButton sx={{ pl: depth + 2 }}>
+            <ListItemButton onClick={handleClickList} sx={{ pl: parents.length + 2 }}>
                 <ListItemIcon classes={{ root: styles.listIcon }}>
                 <ArticleIcon />
                     </ListItemIcon>
-                <ListItemText primary={name} />
+                <ListItemText classes={{primary: styles.listText}} primary={name} />
             </ListItemButton>
         </List>
     )
