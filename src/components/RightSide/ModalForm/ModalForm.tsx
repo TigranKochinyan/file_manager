@@ -1,32 +1,38 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../redux/reducers';
 
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
+import TextareaAutosize from '@mui/material/TextareaAutosize';
 import DialogTitle from '@mui/material/DialogTitle';
 
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
 
+import styles from './index.module.scss';
 
-import styles from './ondex.module.scss';
-
-const ModalForm = () => {
+const ModalForm = ({type, disabled}) => {
 
     const dispatch = useDispatch()
-
+    const currentFolder = useSelector((state: RootState) => {
+        return state.app.currentItem;
+    })
+    
     const [open, setOpen] = useState(false);
-    const [folderName, setFolderName] = useState('')
+    const [folderName, setFolderName] = useState('');
+    const [fileContent, setFileContent] = useState('');
 
-    const handleInputChange = (event) => {
-        setFolderName(event.target.value)
-        console.log(event.target.value);
-        
-    } 
+    const handleNameInputChange = (event) => {
+        setFolderName(event.target.value);
+    };
+
+    const handleContentInputChange = (event) => {
+        setFileContent(event.target.value)
+    }
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -38,57 +44,33 @@ const ModalForm = () => {
 
     const handleSubmit = () => {
         setOpen(false);
-        const newFolder = {
-            id: Math.round(Math.random() * 100),// idGenerator
-            // parents: [...currentFolder.parents, currentFolder.id],
+        const item: any = {
+            id: Math.round(Math.random() * 1000),
             name: folderName,
-            type: 'folder',
-            parents: [],
-            children: [],
+            type,
+            parents: [...currentFolder.parents, currentFolder.id],
+            parentId: currentFolder.id
         }
-        console.log('dddddddddddddddddddddddddd');
-        dispatch({type: 'ADD_CHARACTER', payload: {folder: newFolder}})
-
-    }
-
-    // const handleSubmit = async () => {
-    //     const newFolder = {
-    //         // id: 72228,
-    //         // name: 'Vardan2',
-    //         // type: 'folder',
-    //         // children: [],
-    //         // parents: [],
-
-    //         id: 170,
-    //         parentId: 0,
-    //         name: "firsdddawt file",
-    //         type: "file",
-    //         content: "hello worldwwwwwwwwwwwwwwwwww 21",
-    //         parents: []
-    //     }
-    //     const response = await fetch('http://localhost:3005/characters', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify(newFolder) // body data type must match "Content-Type" header
-    //     });
-    //         console.log('response.json', response.json);
-            
-    //         return response.json(); // parses JSON response into native JavaScript objects
-    // }
-
+        if(type === 'file') {
+            item.content = fileContent.trim();
+        } else {
+            item.children = [];
+        }
+        dispatch({type: 'ADD_CHARACTER', payload: {folder: item}})
+    };
 
     return <div>
-        <Button variant="contained" onClick={handleClickOpen}>
-            <CreateNewFolderIcon />
+        <Button variant="contained" disabled={disabled} onClick={handleClickOpen}>
+            {
+                type === 'file' 
+                    ? <AttachFileIcon />
+                    : <CreateNewFolderIcon />
+                    
+            }
         </Button>
         <Dialog open={open} onClose={handleClose}>
             <DialogTitle>Create a new Folder</DialogTitle>
             <DialogContent>
-                {/* <DialogContentText>
-                    To subscribe to this website
-                </DialogContentText> */}
                 <TextField
                     autoFocus
                     margin="dense"
@@ -98,8 +80,18 @@ const ModalForm = () => {
                     fullWidth
                     variant="standard"
                     value={folderName}
-                    onChange={handleInputChange}
+                    onChange={handleNameInputChange}
                 />
+                {type === 'file' &&
+                    <TextareaAutosize
+                        className={styles.contentInput}
+                        minRows={10}
+                        aria-label="maximum height"
+                        placeholder="Write to file"
+                        onChange={handleContentInputChange}
+                        value={fileContent}
+                    />
+                }
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose}>Cancel</Button>
