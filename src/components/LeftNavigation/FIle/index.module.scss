@@ -16,3 +16,9 @@
     padding-bottom: 0;
     padding-top: 0;
 }
+
+.listText {
+    max-width: 80%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
