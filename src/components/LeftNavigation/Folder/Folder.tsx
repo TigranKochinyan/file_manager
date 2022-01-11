@@ -1,6 +1,7 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/reducers';
+import { history } from '../../../redux/reducers';
 
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -13,24 +14,25 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import File from '../FIle';
 
 import FolderIcon from '@mui/icons-material/Folder';
-import ArticleIcon from '@mui/icons-material/Article';
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 
 import { filterByIds } from '../../../utils/utils';
 
 import styles from './index.module.scss';
 
+
+const pathCreator = (item) => {//TODO add to utils // folder or file data 
+    let path: number[] = [];
+    if (item.parents.length) {
+        path = [...item.parents]
+    }
+    path.push(item.id)
+    return path.join('/')
+}
+
 const Folder = ({name, id, childs}) => {
-    
     const [open, setOpen] = useState(false);
-
-    const foldersInfo = useSelector((state: RootState) => {
-        return state.app.data;
-    })
-
-    const handleClickList = (id) => {
-        setOpen(!open);
-    };
+    const foldersInfo = useSelector((state: RootState) => state.app.data)
     
     const itemData = useMemo(() => {
         const foundedItem = foldersInfo.find(item => item.id === id)
@@ -39,6 +41,11 @@ const Folder = ({name, id, childs}) => {
         }
         return foundedItem
     }, [foldersInfo])
+
+    const handleClickList = (id) => {
+        history.push(`/${pathCreator(itemData)}`);
+        setOpen(!open);
+    };
     
     return (
         <List
@@ -53,27 +60,25 @@ const Folder = ({name, id, childs}) => {
                 // className={props.activeId === props.id ? styles.list_active : ''}
             >
                 <ListItemIcon classes={{ root: styles.listIcon }}>
-                    {
-                        (itemData && itemData.childs) && itemData.childs.length 
-                            ? <FolderIcon /> 
-                            : <FolderOpenIcon />
+                    {(itemData && itemData.childs) && itemData.childs.length 
+                        ? <FolderIcon /> 
+                        : <FolderOpenIcon />
                     }
                 </ListItemIcon>
-                <ListItemText primary={name} />
-                {
-                    itemData.childs && itemData.childs.length > 0 ?
-                    open ? <ExpandLess /> : <ExpandMore /> : null
+                <ListItemText classes={{primary: styles.listText}} primary={name} />
+                {itemData.childs && itemData.childs.length > 0 ?
+                    open 
+                    ? <ExpandLess />
+                    : <ExpandMore />
+                    : null
                 }
             </ListItemButton>
             <Collapse in={open} timeout="auto" unmountOnExit>
-                {
-                    (itemData.childs) && itemData.childs.map(child => { // TODO dzel
-                        if (child.type === 'file') {
-                            return <File key={child.id} name={child.name} id={child.id} depth={child.parents.length}/>  
-                        }
-                        return <Folder name={child.name} key={child.id} id={child.id} childs={child.children} />
-                    })
-                }
+                {(itemData.childs) && itemData.childs.map(child => { // TODO dzel
+                    return (child.type === 'file') 
+                        ? <File key={child.id} name={child.name} id={child.id} parents={child.parents}/>
+                        : <Folder name={child.name} key={child.id} id={child.id} childs={child.children} />
+                })}
             </Collapse>
         </List>
     )
