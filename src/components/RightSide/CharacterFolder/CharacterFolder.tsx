@@ -1,10 +1,9 @@
 import FolderIcon from '@mui/icons-material/Folder';
-import ArticleIcon from '@mui/icons-material/Article';
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 
 import styles from './index.module.scss';
 
-const CharacterFolder  = ({ name }) => {
+const CharacterFolder  = ({ name, isEmpty, id }) => {
     return (
         <div
         // onClick={(e) => handleClick(e, id)}
@@ -14,9 +13,13 @@ const CharacterFolder  = ({ name }) => {
         tabIndex={0}
         >
             <div className=''>
-                <FolderOpenIcon fontSize='large' classes={{ root: styles.character_icon }} />
+                {
+                    isEmpty 
+                    ? <FolderIcon fontSize='large' classes={{ root: styles.character_icon }} />
+                    : <FolderOpenIcon fontSize='large' classes={{ root: styles.character_icon }} />
+                }
             </div>
-            <p>{name}</p>
+            <p className={styles.folderNameText}>{name}</p>
         </div>
     )
 }
