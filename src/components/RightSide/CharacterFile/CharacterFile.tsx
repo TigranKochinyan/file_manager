@@ -5,7 +5,7 @@ import styles from './index.module.scss';
 
 const CharacterFile = ({ name, id, selected, handleClick }) => {
 
-    const [isSelected, setIsSelected] = useState(false);
+    const [isSelected, setIsSelected] = useState(false); //TODO add selecting functionality (maybe)
 
     // const handleClick = (event, id, select = !isSelected) => {
     //     // add id to parent component state or add it to store/ selectedItems
@@ -30,7 +30,7 @@ const CharacterFile = ({ name, id, selected, handleClick }) => {
             <div className=''>
                 <ArticleIcon fontSize='large' classes={{ root: styles.character_icon }} />
             </div>
-            <p>{name}</p>
+            <p className={styles.fileNameText}>{name}</p>
         </div>
     )
 }
