@@ -13,7 +13,6 @@ const Main = () => {
                 <RightSide />
             </Grid>
         </Grid>
-        
     </Container>
 }
 
