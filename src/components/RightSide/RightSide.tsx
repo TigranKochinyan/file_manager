@@ -1,8 +1,10 @@
+import { useMemo } from 'react';
+import { RootState } from '../../redux/reducers';
 import { useSelector } from 'react-redux';
 import { FoldersInfo } from '../../store/types';
 import { history } from '../../redux/reducers';
+import { filterByIds } from '../../utils/utils';
 
-// import GridItem from '../GridItem';
 import ActionBttons from './ActionsButtons';
 import Road from './Road';
 
@@ -14,9 +16,16 @@ import CharacterFolder from './CharacterFolder';
 import { useState } from 'react';
 
 const RightSide = () => {
-    const currentFolder = useSelector((state: FoldersInfo) => {
-        return state.app.currentItem;
-    });
+    const foldersInfo = useSelector((state: RootState) => state.app.data);
+    const currentFolder = useSelector((state: FoldersInfo) => state.app.currentItem);
+
+    const itemData = useMemo(() => { // TODO maybe its not using
+        const foundedItem = {...currentFolder};
+        if (currentFolder.children?.length) {
+            foundedItem.childs = filterByIds(foldersInfo, currentFolder.children)
+        }
+        return foundedItem
+    }, [foldersInfo, currentFolder])
 
     const [selectedItems, setSelectedItems]: any = useState([]);
 
@@ -48,55 +57,41 @@ const RightSide = () => {
         // setSelectedItems(newSelctedItems);
         
     }
-
+  
     return <div className={styles.rightSide}>
         <Road />
-        <ActionBttons parentId={currentFolder?.parentId}/>
+        <ActionBttons
+            id={currentFolder.id}
+            disableActions={currentFolder.type === 'file'} 
+            parentId={currentFolder?.parentId}
+        />
         {
-            currentFolder?.type === 'file' ? 
+            currentFolder.type === 'file' ? 
             <Typography variant='subtitle1'>{currentFolder?.content}</Typography>
             :
-            currentFolder &&
+            itemData.childs &&
                 <Grid container>
-                    dwwwwwwwwwww
-                    
-                {/* {currentFolder?.folders.map(folder => {
-                        return <Grid key={folder.id} item xs={3} onDoubleClick={() => handleDoubleClick(folder.id)}>
-                            <CharacterFolder  name={folder.name} />
-                        </Grid>
-                    })
-                }
-                {currentFolder?.files.map(file => {
-                        return <Grid key={file.id} item xs={3} onDoubleClick={() => handleDoubleClick(file.id)}>
-                                <CharacterFile
+                {
+                    itemData.childs.map(item => (
+                        <Grid key={item.id} item xs={3} onDoubleClick={() => handleDoubleClick(item.id)}>
+                            {item.type === 'file'
+                                ? <CharacterFile 
+                                    name={item.name}
+                                    id={item.id}
+                                    selected={false}
                                     handleClick={handleClick}
-                                    id={file.id}
-                                    name={file.name}
-                                    selected={selectedItems.includes(file.id)}
                                 />
-                            </Grid>
-                    })
-                } */}
+                                : <CharacterFolder 
+                                    name={item.name}
+                                    id={item.id}
+                                    isEmpty={!!item.children.length}
+                                />
+                            }
+                        </Grid>
+                    ))
+                }    
             </Grid>
         }
-        {/* <div className={styles.df}>
-            {
-                testFiles.map(file => {
-                    return <div key={file.id} onDoubleClick={() => handleDoubleClick(file.id)}> 
-                        <CharacterFile handleClick={handleClick} id={file.id} name={file.name} selected={selectedItems.includes(file.id)} />
-                    </div>
-                })
-            }
-        </div>
-        <div className={styles.df}>
-            {
-                testFiles.map(file => {
-                    return <div key={file.id} onDoubleClick={() => handleDoubleClick(file.id)}> 
-                        <CharacterFolder name={'s'} />
-                    </div>
-                })
-            }
-        </div> */}
     </div>
 }
 
