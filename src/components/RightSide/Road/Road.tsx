@@ -1,13 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
-
+import { Link } from 'react-router-dom';
 import { getBreadCrumbs } from '../../../utils/utils';
 
-import useActions from '../../../hooks/useActions';
-
 import Breadcrumbs from '@mui/material/Breadcrumbs';
-import Link from '@mui/material/Link';
-
+import HomeIcon from '@mui/icons-material/Home';
 import styles from './index.module.scss';
 
 interface RoadTypes {
@@ -19,8 +16,6 @@ const Road = () => {
     const [roads, setRoads] = useState([{name: '', url: ''}])
     const location = useLocation();
 
-    const actions = useActions()
-
     useEffect((): void => {
         const roads = getBreadCrumbs(location.pathname)
         setRoads(roads)
@@ -28,18 +23,20 @@ const Road = () => {
 
     return <div>
         <Breadcrumbs classes={{ root: styles.bread, li: styles.li }} aria-label="breadcrumb">
+            <Link to='/'><HomeIcon/></Link>
             {roads.map((id, index) => {
+                if (index === roads.length - 1){
+                    return <span>{id.name}</span>
+                }
                 return <Link
                     key={`${id.name}-${index}`}
-                    underline="hover"
                     color="inherit"
-                    href={id.url}
+                    to={id.url}
                 >
                     {id.name}
               </Link>
             })}
         </Breadcrumbs>
-
     </div>
 }
 
