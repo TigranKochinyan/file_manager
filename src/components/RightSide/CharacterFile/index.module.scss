@@ -17,4 +17,15 @@
     &_icon {
         font-size: 3.2875rem !important;
     }
+
+    .fileNameText {
+        max-width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        
+        // when selected
+        // max-width: null;
+        // overflow: hidden;
+        // word-break: break-word;
+    }
 }
