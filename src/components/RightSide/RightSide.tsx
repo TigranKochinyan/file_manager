@@ -1,68 +1,95 @@
+import { useMemo } from 'react';
+import { RootState } from '../../redux/reducers';
 import { useSelector } from 'react-redux';
 import { FoldersInfo } from '../../store/types';
-import { useNavigate } from 'react-router-dom';
-import { useLocation } from 'react-router';
-import useActions from '../../hooks/useActions';
-import { getBreadCrumbs } from '../../utils/utils';
+import { history } from '../../redux/reducers';
+import { filterByIds } from '../../utils/utils';
 
-import GridItem from '../GridItem';
 import ActionBttons from './ActionsButtons';
 import Road from './Road';
-import ArticleIcon from '@mui/icons-material/Article';
 
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import styles from './index.module.scss';
+import CharacterFile from './CharacterFile';
+import CharacterFolder from './CharacterFolder';
+import { useState } from 'react';
 
 const RightSide = () => {
-    const location = useLocation();
-    const actions = useActions();
-    const currentFolder = useSelector((state: FoldersInfo) => {
-        return state.curentFolder;
-    });
-    const navigate = useNavigate();
+    const foldersInfo = useSelector((state: RootState) => state.app.data);
+    const currentFolder = useSelector((state: FoldersInfo) => state.app.currentItem);
+
+    const itemData = useMemo(() => { // TODO maybe its not using
+        const foundedItem = {...currentFolder};
+        if (currentFolder.children?.length) {
+            foundedItem.childs = filterByIds(foldersInfo, currentFolder.children)
+        }
+        return foundedItem
+    }, [foldersInfo, currentFolder])
+
+    const [selectedItems, setSelectedItems]: any = useState([]);
 
     const handleDoubleClick = (id) => {
-        const roads = getBreadCrumbs(location.pathname)
-        console.log('sssssadsasad', roads);
-        
-        navigate(`${roads[roads.length - 1].url}/${id}`);
+        if(history.location.pathname === '/') {
+            history.push(`/${id}`)
+            return
+        }
+        history.push(`${history.location.pathname}/${id}`)
     };
 
+    const handleClick = (event, id: number, blured: boolean = false ) => {
+        if(blured) {
+            setSelectedItems([])
+            return;
+        }
+        
+        const newSelctedItems: number[] = [...selectedItems];
+        // console.log(newSelctedItems, id);
+        
+        if(newSelctedItems.includes(id)) {
+            setSelectedItems(state => state.filter(item => item !== id));
+            // newSelctedItems.filter(item => item !== id)
+        } else {
+            // newSelctedItems.push(id)
+            setSelectedItems(state => [...state, id]);
+
+        }
+        // setSelectedItems(newSelctedItems);
+        
+    }
+  
     return <div className={styles.rightSide}>
-        RightSide
         <Road />
         <ActionBttons
-            backToFolder={currentFolder.id !== 1 ? () => { navigate(`/folders/`) } : () => null}
-            parentId={currentFolder.parentId}
+            id={currentFolder.id}
+            disableActions={currentFolder.type === 'file'} 
+            parentId={currentFolder?.parentId}
         />
         {
-            currentFolder?.type === 'file' ? 
-            <Typography variant='subtitle1'>{currentFolder.content}</Typography>
+            currentFolder.type === 'file' ? 
+            <Typography variant='subtitle1'>{currentFolder?.content}</Typography>
             :
-            (currentFolder && currentFolder.name) &&
+            itemData.childs &&
                 <Grid container>
-                {currentFolder?.folders.map(folder => {
-                        return <Grid key={folder.id} item xs={4}>
-                            <GridItem 
-                                id={folder.id}
-                                name={folder.name}
-                                type={folder.type}
-                                folders={folder.folders}
-                                files={folder.files}
-                            />
+                {
+                    itemData.childs.map(item => (
+                        <Grid key={item.id} item xs={3} onDoubleClick={() => handleDoubleClick(item.id)}>
+                            {item.type === 'file'
+                                ? <CharacterFile 
+                                    name={item.name}
+                                    id={item.id}
+                                    selected={false}
+                                    handleClick={handleClick}
+                                />
+                                : <CharacterFolder 
+                                    name={item.name}
+                                    id={item.id}
+                                    isEmpty={!!item.children.length}
+                                />
+                            }
                         </Grid>
-                    })
-                }
-                {currentFolder?.files.map(file => {
-                        return <div onDoubleClick={() => handleDoubleClick(file.id)}> 
-                            <Grid key={file.id} item xs={4}>
-                                <ArticleIcon fontSize='large' />
-                                <Typography>{file.name}</Typography>
-                            </Grid>
-                        </div>
-                    })
-                }
+                    ))
+                }    
             </Grid>
         }
     </div>

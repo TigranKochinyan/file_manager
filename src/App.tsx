@@ -1,35 +1,20 @@
-import { useEffect } from 'react';
+import { ConnectedRouter } from 'connected-react-router';
+import { Route, Switch } from 'react-router-dom';
+import { history } from './redux/reducers';
 
-import useActions from './hooks/useActions';
-import Header from './components/Header';
 import Main from './pages/Main';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import './App.css';
 
 function App() {
-  const actions = useActions()
-
-  // useEffect(() => {
-  //   actions.getCurrentFolder({ id: 0 })
-  // }, [])
-
   return (
     <div className="App">
-      <Router>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Main />}>
-            {/* <Route path="folders" element={<LeftNavigation />}>
-              <Route path=":teamId" element={<RightSide />} />
-              <Route path="new" element={<RightSide />} />
-              <Route index element={<>s</>} />
-            </Route> */}
-            <Route path="folders" >
-              <Route path="*" element={<Main />} />
-            </Route>
+      <ConnectedRouter history={history}>
+        <Switch>
+          <Route path="/">
+            <Main />
           </Route>
-        </Routes>
-      </Router>
+        </Switch>
+      </ConnectedRouter>
     </div>
   );
 }
