@@ -23,13 +23,13 @@ const Road = () => {
 
     return <div>
         <Breadcrumbs classes={{ root: styles.bread, li: styles.li }} aria-label="breadcrumb">
-            <Link to='/'><HomeIcon/></Link>
+            <Link key={45777} to='/'><HomeIcon/></Link>
             {roads.map((id, index) => {
                 if (index === roads.length - 1){
-                    return <span>{id.name}</span>
+                    return <span key={id.url}>{id.name}</span>
                 }
                 return <Link
-                    key={`${id.name}-${index}`}
+                    key={id.url}
                     color="inherit"
                     to={id.url}
                 >
