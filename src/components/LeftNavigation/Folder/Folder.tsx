@@ -1,40 +1,48 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, FC } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/reducers';
 import { history } from '../../../redux/reducers';
 
+import { pathCreator, filterByIds } from '../../../utils/utils';
+import { FolderTypes } from '../../../types/folder';
+import { FileTypes } from '../../../types/file';
+
+import File from '../File';
+
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import Collapse from '@mui/material/Collapse';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-
-import File from '../FIle';
-
+import ListItemIcon from '@mui/material/ListItemIcon';
 import FolderIcon from '@mui/icons-material/Folder';
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 
-import { filterByIds } from '../../../utils/utils';
-
 import styles from './index.module.scss';
 
-
-const pathCreator = (item) => {//TODO add to utils // folder or file data 
-    let path: number[] = [];
-    if (item.parents.length) {
-        path = [...item.parents]
-    }
-    path.push(item.id)
-    return path.join('/')
+interface FolderProps {
+    name: string;
+    id: number;
+    childs: number[];
 }
 
-const Folder = ({name, id, childs}) => {
+interface ItemDataTypes {
+    children: number[];
+    childs: (FolderTypes | FileTypes)[];
+    id: number;
+    name: string;
+    parentId: number;
+    parents: number[]
+    type: "folder"
+}
+
+const Folder: FC<FolderProps> = ({name, id, childs}) => {
     const [open, setOpen] = useState(false);
     const foldersInfo = useSelector((state: RootState) => state.app.data)
     
-    const itemData = useMemo(() => {
+    const itemData: ItemDataTypes = useMemo(() => {
         const foundedItem = foldersInfo.find(item => item.id === id)
         if (childs.length) {
             foundedItem.childs = filterByIds(foldersInfo, childs)
@@ -42,8 +50,8 @@ const Folder = ({name, id, childs}) => {
         return foundedItem
     }, [foldersInfo])
 
-    const handleClickList = (id) => {
-        history.push(`/${pathCreator(itemData)}`);
+    const handleClickList = (id): void => {
+        history.push(`/${pathCreator(itemData.id, itemData.parents)}`);
         setOpen(!open);
     };
     
@@ -74,7 +82,7 @@ const Folder = ({name, id, childs}) => {
                 }
             </ListItemButton>
             <Collapse in={open} timeout="auto" unmountOnExit>
-                {(itemData.childs) && itemData.childs.map(child => { // TODO dzel
+                {(itemData.childs) && itemData.childs.map((child: FolderTypes | FileTypes) => { // TODO dzel
                     return (child.type === 'file') 
                         ? <File key={child.id} name={child.name} id={child.id} parents={child.parents}/>
                         : <Folder name={child.name} key={child.id} id={child.id} childs={child.children} />

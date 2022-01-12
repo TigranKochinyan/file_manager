@@ -1,25 +1,26 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/reducers';
 
+import { FileTypes } from '../../types/file';
+import { FolderTypes } from '../../types/folder';
+
 import Folder from './Folder';
-import File from './FIle';
+import File from './File';
 
 import styles from './index.module.scss';
 
 const LeftNavigation = () => {
-    //TODO maybe using current folder 
-    const foldersInfo = useSelector((state: RootState) => {
-        return state.app.data;
-    })
-
-    const currentFolder = useSelector((state: RootState) => {
-        return state.app.currentItem;
-    })
-    
+    const foldersInfo: any[] = useSelector((state: RootState) => state.app.data)
+      
     return <div className={styles.leftNavigation}>
-        {foldersInfo.filter(item => item.parents.length === 0).map(item => (
-            (item.type === 'file') 
-                ? <File name={item.name} key={item.id} id={item.id} parents={item.parents} />  
+        {foldersInfo.filter((item: FolderTypes | FileTypes) => item.parents.length === 0).map(item => (
+            (item.type === 'file')
+                ? <File
+                    name={item.name}
+                    key={item.id}
+                    id={item.id}
+                    parents={item.parents}
+                />  
                 : <Folder
                     key={item.id}
                     name={item.name}

@@ -1,4 +1,7 @@
+import { FC } from 'react'; 
 import { history } from '../../../redux/reducers';
+
+import { pathCreator } from '../../../utils/utils';
 
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -9,19 +12,15 @@ import ArticleIcon from '@mui/icons-material/Article';
 
 import styles from './index.module.scss';
 
-const pathCreator = (item) => {// folder or file data 
-    let path: number[] = [];
-    if (item.parents.length) {
-        path = [...item.parents]
-    }
-    path.push(item.id)
-    return path.join('/')
+interface FileProps {
+    name: string;
+    id: number;
+    parents: number[];
 }
 
-const File = ({name, id, parents}) => {
-    
-    const handleClickList = () => {
-        history.push(`/${pathCreator({id, parents})}`);
+const File: FC<FileProps> = ({name, id, parents}) => {
+    const handleClickList = (): void => {
+        history.push(`/${pathCreator(id, parents)}`);
     }
     return (
         <List 

@@ -30,6 +30,15 @@ export const isEmptyObject = (obj) => {
     return Object.keys(obj).length === 0 && Object.getPrototypeOf(obj) === Object.prototype;
 }
 
+export const pathCreator = (id: number, parents: number[]): string => {
+    let path: number[] = [];
+    if (parents.length) {
+        path = [...parents]
+    }
+    path.push(id)
+    return path.join('/')
+}
+
 export const getBreadCrumbs = (path) => {
     const ids: string[] = path.split('/').slice(1)
     const roads: { name: string, url: string }[] = ids.map((name, idIndex) => {

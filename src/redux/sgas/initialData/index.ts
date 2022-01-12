@@ -3,7 +3,6 @@ import { LOCATION_CHANGE } from 'connected-react-router';
 import { getFirestore, collection, getDocs, updateDoc, setDoc, doc, deleteDoc } from 'firebase/firestore/lite';
 
 import { db } from '../../../firebase';
-// import axios from 'axios'; // TODO change fetch to axios
 
 import { getObject, isEmptyObject } from '../../../utils/utils';
 
