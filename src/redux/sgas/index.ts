@@ -43,6 +43,29 @@ export function* deleteOnAction() {
     while (true) {
         const action = yield take('DELETE_ITEM')
         const { id } = action.payload;
+
+        const foldersInfo = yield select((state) => state.app.data);
+
+        const itemParent = foldersInfo.find(item => {
+            return item.children[item.children.length - 1] === id
+        })
+        
+        if (itemParent.id !== 0) {
+            delete itemParent.childs;
+            let updatedChildren = itemParent.children.filter(itemId => itemId !== id)
+            
+            const responsePut = yield call(fetch, `http://localhost:3005/characters/${itemParent.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    ...itemParent,
+                    children: updatedChildren
+                })
+            })
+        }
+
         const response = yield call(fetch, `http://localhost:3005/characters/${id}`, {
             method: 'DELETE',
             headers: {
