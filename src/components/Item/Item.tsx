@@ -74,44 +74,6 @@ const Item = (props: ChildrenArrProps) => {
             {props.type === 'file' ? null : open ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
         <Collapse in={open} timeout="auto" unmountOnExit>
-            {/* {
-                props.folders.map(item => {
-                    return (
-                        <Item
-                            key={item.id}
-                            id={item.id}
-                            name={item.name}
-                            folders={item.folders}
-                            files={item.files}
-                            depth={item.depth}
-                            activeId={props.activeId}
-                            type={item.type}
-                        />
-                    )
-                })
-            }
-            {
-                props.files.map(file => {
-                    return (
-                        <List
-                            className={props.activeId === file.id ? styles.list_active : ''}
-                            // onClick={() => handleClick(file.id)}
-                            key={file.id}
-                            component="div"
-                            disablePadding
-                        >
-                            <ListItemButton sx={{ pl: file.depth + 2 }}>
-                                <ListItemIcon classes={{ root: styles.listIcon }}>
-                                    <ArticleIcon />
-                                </ListItemIcon>
-                                <Link to={`/${file.id}`}>
-                                    <ListItemText primary={file.name} />
-                                </Link>
-                            </ListItemButton>
-                        </List>
-                    )
-                })
-            } */}
         </Collapse>
     </List>
 }

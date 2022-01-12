@@ -44,7 +44,7 @@ const RightSide = () => {
         }
         
         const newSelctedItems: number[] = [...selectedItems];
-        console.log(newSelctedItems, id);
+        // console.log(newSelctedItems, id);
         
         if(newSelctedItems.includes(id)) {
             setSelectedItems(state => state.filter(item => item !== id));

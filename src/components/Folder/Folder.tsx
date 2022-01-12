@@ -27,8 +27,6 @@ interface FolderProps {
 const Folder = ({name, childrens=[]}: FolderProps) => {
     const [childrensIsOpen, setChildrensIsOpen] = useState(false)
     const handleClick = (e): void => {
-        // console.log('folder:', name, 'childessssss', childrens);
-        // console.log(e.ctrlKey);// when true add to selected items in store
         setChildrensIsOpen(!childrensIsOpen)
         
     }
@@ -42,8 +40,6 @@ const Folder = ({name, childrens=[]}: FolderProps) => {
                 return <div key={child.id} className={styles.folder_childrens}>
                     {
                         child.folders && child.folders.map(folder => {
-                            console.log(folder.name, '----', folder);
-                            
                             return <Folder key={folder.id} name={folder.name} folders={folder.folders} childrens={folder.folders}/>
                         })
                     }

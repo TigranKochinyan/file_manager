@@ -2,7 +2,6 @@ import { ConnectedRouter } from 'connected-react-router';
 import { Route, Switch } from 'react-router-dom';
 import { history } from './redux/reducers';
 
-
 import Main from './pages/Main';
 import './App.css';
 
