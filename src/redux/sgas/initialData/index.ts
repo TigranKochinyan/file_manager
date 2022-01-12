@@ -1,20 +1,29 @@
 import { call, fork, all, put, take, select } from 'redux-saga/effects';
 import { LOCATION_CHANGE } from 'connected-react-router';
+import { getFirestore, collection, getDocs, updateDoc, setDoc, doc, deleteDoc } from 'firebase/firestore/lite';
+
+import { db } from '../../../firebase';
 // import axios from 'axios'; // TODO change fetch to axios
 
 import { getObject, isEmptyObject } from '../../../utils/utils';
 
+const getDataFromFirebase = async () => {
+    const dataCol = collection(db, 'characters');
+    const dataSnapshot = await getDocs(dataCol);
+    const dataList = dataSnapshot.docs.map(doc => doc.data());
+    return dataList;
+}
+
 export function* loadData() {
-    const response = yield call(fetch, 'http://localhost:3005/characters');//'http://localhost:3001/folders'
-    const data = yield call([response, response.json]);
-    yield put({type: 'SET_DATA', payload: data});
+    const dataFromFirebase = yield call(getDataFromFirebase)
+    yield put({type: 'SET_DATA', payload: dataFromFirebase});
 
     const route = yield select((state) => state.router)
     if (route.location.pathname !== '/') {
         console.log(route.location.pathname)
         let currentFolderId = route.location.pathname.split('/')
         currentFolderId = Number(currentFolderId[currentFolderId.length - 1])
-        const currentItem = data.find(item => item.id === currentFolderId)
+        const currentItem = dataFromFirebase.find(item => item.id === currentFolderId)
         yield put({type: 'SET_CURRENT_ITEM', payload: currentItem});
     } else {
         yield put({type: 'SET_CURRENT_ITEM', payload: {
@@ -23,8 +32,8 @@ export function* loadData() {
             type: 'folder',
             name: '',
             parents: [],
-            children: data.filter(item => item.parentId === 0).map(item => item.id),
-            childs: data.filter(item => item.parentId === 0)
+            children: dataFromFirebase.filter(item => item.parentId === 0).map(item => item.id),
+            childs: dataFromFirebase.filter(item => item.parentId === 0)
         }});
     }
 }
