@@ -1,8 +1,9 @@
-import { ReactElement, FC, useState, ChangeEvent } from 'react';
+import { ReactElement, FC, useState, ChangeEvent, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../redux/reducers';
 
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -12,24 +13,47 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
+import EditIcon from '@mui/icons-material/Edit';
 
 import styles from './index.module.scss';
 
+export enum ItemType {
+    FILE = "file",
+    FOLDER = "folder",
+    EDIT_FILE = "edit-file",
+}
+
 interface ModalFormProps {
-    type: 'file' | 'folder';
+    type: ItemType;
     disabled?: boolean;
 }
 
 const ModalForm: FC<ModalFormProps> = ({type, disabled}): ReactElement => {
+    const icon = useMemo((): JSX.Element => {
+        switch (type) {
+            case ItemType.FILE:
+                return <AttachFileIcon />
+            case ItemType.FOLDER:
+                return <CreateNewFolderIcon />
+            default:
+                return <EditIcon />
+        }
+    }, [type])
 
     const dispatch = useDispatch()
-    const currentFolder = useSelector((state: RootState) => {
-        return state.app.currentItem;
-    })
+    const currentFolder = useSelector((state: RootState) => state.app.currentItem)
+    const foldersInfo = useSelector((state: RootState) =>  state.app.data)
     
     const [open, setOpen] = useState(false);
     const [folderName, setFolderName] = useState('');
     const [fileContent, setFileContent] = useState('');
+
+    useEffect(() => {
+        if(type === ItemType.EDIT_FILE) {
+            setFolderName(currentFolder.name)
+            setFileContent(currentFolder.content)
+        }
+    }, [])
 
     const handleNameInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
         setFolderName(event.target.value);
@@ -45,35 +69,37 @@ const ModalForm: FC<ModalFormProps> = ({type, disabled}): ReactElement => {
 
     const handleSubmit = (): void => {
         setOpen(false);
+        const id = currentFolder.type === 'folder'
+            ? Number(`${currentFolder.id}${currentFolder.children.length + 1}`)
+            : currentFolder.id + 1;
         const item: any = {
-            id: Math.round(Math.random() * 1000),
+            id,
             name: folderName,
             type,
             parents: [...currentFolder.parents, currentFolder.id],
             parentId: currentFolder.id
         }
-        if(type === 'file') {
+        if(type === ItemType.FILE) {
             item.content = fileContent.trim();
         } else {
             item.children = [];
         }
-        dispatch({type: 'ADD_CHARACTER', payload: {folder: item}})
+        if(type === ItemType.EDIT_FILE) {
+            dispatch({type: 'EDIT_FILE', payload: {name: folderName, id: currentFolder.id, content: fileContent}})
+        } else {
+            dispatch({type: 'ADD_CHARACTER', payload: {folder: item}})
+        }
     };
 
-    return <div>
+    return <Box>
         <Button variant="contained" disabled={disabled} onClick={handleClickOpen}>
-            {type === 'file' 
-                ? <AttachFileIcon />
-                : <CreateNewFolderIcon />
-            }
+            {icon}
         </Button>
         <Dialog open={open} onClose={handleClose}>
             <DialogTitle>Create a new Folder</DialogTitle>
             <DialogContent>
                 <TextField
                     autoFocus
-                    margin="dense"
-                    id="name"
                     label="Folder name"
                     type="text"
                     fullWidth
@@ -81,7 +107,7 @@ const ModalForm: FC<ModalFormProps> = ({type, disabled}): ReactElement => {
                     value={folderName}
                     onChange={handleNameInputChange}
                 />
-                {type === 'file' &&
+                {(type === ItemType.FILE || type === ItemType.EDIT_FILE) &&
                     <TextareaAutosize
                         className={styles.contentInput}
                         minRows={10}
@@ -97,7 +123,7 @@ const ModalForm: FC<ModalFormProps> = ({type, disabled}): ReactElement => {
                 <Button onClick={handleSubmit}>Create</Button>
             </DialogActions>
         </Dialog>
-    </div>
+    </Box>
 }
 
 export default ModalForm;
