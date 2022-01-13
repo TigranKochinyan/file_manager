@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
 import { getBreadCrumbs } from '../../../utils/utils';
@@ -7,33 +7,28 @@ import Breadcrumbs from '@mui/material/Breadcrumbs';
 import HomeIcon from '@mui/icons-material/Home';
 import styles from './index.module.scss';
 
-interface RoadTypes {
-    name: string,
-    url: string,
-}
-
-const Road = () => {
-    const [roads, setRoads] = useState([{name: '', url: ''}])
+const Road = (): ReactElement => {
+    const [roads, setRoads] = useState([{name: '', url: ''}]);
     const location = useLocation();
 
     useEffect((): void => {
-        const roads = getBreadCrumbs(location.pathname)
-        setRoads(roads)
+        const roads: {name: string, url: string}[] = getBreadCrumbs(location.pathname);
+        setRoads(roads);
     }, [location])
 
     return <div>
         <Breadcrumbs classes={{ root: styles.bread, li: styles.li }} aria-label="breadcrumb">
-            <Link key={45777} to='/'><HomeIcon/></Link>
-            {roads.map((id, index) => {
+            <Link to='/'><HomeIcon/></Link>
+            {roads.map((road : {name: string, url: string}, index: number) => {
                 if (index === roads.length - 1){
-                    return <span key={id.url}>{id.name}</span>
+                    return <span key={road.url}>{road.name}</span>
                 }
                 return <Link
-                    key={id.url}
+                    key={road.url}
                     color="inherit"
-                    to={id.url}
+                    to={road.url}
                 >
-                    {id.name}
+                    {road.name}
               </Link>
             })}
         </Breadcrumbs>

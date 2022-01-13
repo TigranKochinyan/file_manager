@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ReactElement, FC, useState, ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../redux/reducers';
 
@@ -15,7 +15,12 @@ import AttachFileIcon from '@mui/icons-material/AttachFile';
 
 import styles from './index.module.scss';
 
-const ModalForm = ({type, disabled}) => {
+interface ModalFormProps {
+    type: 'file' | 'folder';
+    disabled?: boolean;
+}
+
+const ModalForm: FC<ModalFormProps> = ({type, disabled}): ReactElement => {
 
     const dispatch = useDispatch()
     const currentFolder = useSelector((state: RootState) => {
@@ -26,7 +31,7 @@ const ModalForm = ({type, disabled}) => {
     const [folderName, setFolderName] = useState('');
     const [fileContent, setFileContent] = useState('');
 
-    const handleNameInputChange = (event) => {
+    const handleNameInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
         setFolderName(event.target.value);
     };
 
@@ -34,15 +39,11 @@ const ModalForm = ({type, disabled}) => {
         setFileContent(event.target.value)
     }
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
+    const handleClickOpen = (): void => setOpen(true);
 
-    const handleClose = () => {
-        setOpen(false);
-    };
+    const handleClose = (): void => setOpen(false);
 
-    const handleSubmit = () => {
+    const handleSubmit = (): void => {
         setOpen(false);
         const item: any = {
             id: Math.round(Math.random() * 1000),
@@ -61,11 +62,9 @@ const ModalForm = ({type, disabled}) => {
 
     return <div>
         <Button variant="contained" disabled={disabled} onClick={handleClickOpen}>
-            {
-                type === 'file' 
-                    ? <AttachFileIcon />
-                    : <CreateNewFolderIcon />
-                    
+            {type === 'file' 
+                ? <AttachFileIcon />
+                : <CreateNewFolderIcon />
             }
         </Button>
         <Dialog open={open} onClose={handleClose}>

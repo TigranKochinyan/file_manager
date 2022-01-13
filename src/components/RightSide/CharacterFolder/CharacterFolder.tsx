@@ -1,15 +1,33 @@
+import { ReactElement, FC, useState } from 'react';
 import FolderIcon from '@mui/icons-material/Folder';
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 
 import styles from './index.module.scss';
 
-const CharacterFolder  = ({ name, isEmpty, id }) => {
+interface CharacterFolderProps {
+    id: number;
+    name: string;
+    isEmpty: boolean;
+    handleClick: any; //TODO
+}
+
+const CharacterFolder: FC<CharacterFolderProps> = ({ name, isEmpty, id, handleClick }): ReactElement => {
+
+    const [isSelected, setIsSelected] = useState(false); //TODO add selecting functionality (maybe)
+
+    const handleSelect = (event, id) => {
+        if (event.ctrlKey) {
+            setIsSelected(!isSelected)
+            handleClick(event, id)
+        }
+    }
+
     return (
         <div
-        // onClick={(e) => handleClick(e, id)}
+        onClick={(event) => handleSelect(event, id)}
         // onBlur={(e) => handleClick(e, id, true)}
         className={styles.character}
-        // data-selected={selected}
+        data-selected={isSelected}
         tabIndex={0}
         >
             <div className=''>

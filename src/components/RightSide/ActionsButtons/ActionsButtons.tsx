@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, ReactElement } from 'react';
 import { useDispatch } from 'react-redux';
 import { history } from '../../../redux/reducers';
 
@@ -9,21 +9,20 @@ import ModalForm from '../ModalForm';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import styles from './index.module.scss';
+// import styles from './index.module.scss';
 
 interface ActionButtonsProps {
-    parentId: number;
     id: number,
-    disableActions: boolean;
+    type: 'file' | 'folder';
 }
 
-const ActionBttons: FC<ActionButtonsProps> = ({id, parentId, disableActions}) => {
+const ActionBttons: FC<ActionButtonsProps> = ({id, type}): ReactElement => {
     const dispatch = useDispatch();
-    const deleteFile = (id): void => {
+    const deleteFile = (id: number): void => {
         dispatch({type: 'DELETE_ITEM', payload: {id}});
         history.goBack();
     }
-    
+
     return <Stack direction="row" spacing={2}>
         <Button
             variant="contained"
@@ -35,8 +34,12 @@ const ActionBttons: FC<ActionButtonsProps> = ({id, parentId, disableActions}) =>
             onClick={() => deleteFile(id)}
             startIcon={<DeleteIcon />}
         />
-        <ModalForm disabled={disableActions} type="folder"/>
-        <ModalForm disabled={disableActions} type="file"/>
+        {type === 'folder' &&
+            <>
+                <ModalForm type="folder"/>
+                <ModalForm type="file"/>
+            </>
+        }
     </Stack>
 }
 
