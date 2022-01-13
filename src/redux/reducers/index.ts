@@ -14,7 +14,6 @@ const initial = {
     currentItem: {}, // file or folder
 }
 
-
 export function appReducer(state: InitialState = initial, action) {
     switch (action.type) {
         case 'SET_DATA': {
@@ -27,24 +26,6 @@ export function appReducer(state: InitialState = initial, action) {
             return {
                 ...state,
                 currentItem: action.payload
-            }
-        }
-        // case 'ADD_ITEM': {
-        //     return {
-        //         ...state,
-        //         currentItem: action.payload
-        //     }
-        // }
-        case 'LOADING_DATA': {
-            return {
-                ...state,
-                loading: true
-            }
-        }
-        case 'LOADING_DATA_SUCCSESS': {
-            return {
-                ...state,
-                loading: false,
             }
         }
         default:

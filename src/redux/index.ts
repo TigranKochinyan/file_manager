@@ -7,7 +7,6 @@ import rootSaga from './sgas';
 
 declare const window: any; //TODO 
 
-
 const sagaMiddleware = createSagaMiddleware()
 
 const store = createStore(

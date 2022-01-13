@@ -21,4 +21,3 @@ export type FolderId = {
 export type FoldersInfo = {
     [key: string]: any;
 }
-  

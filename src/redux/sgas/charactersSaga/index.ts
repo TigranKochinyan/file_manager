@@ -1,18 +1,27 @@
-import { call, apply, takeEvery, select, take, takeLatest } from "redux-saga/effects";
+import { call, all, fork, select, take } from "redux-saga/effects";
 import { loadData } from "../initialData";
-import { postItemToFirbase, deleteItemFromFirebase, updateItemChildren } from '../../../api';
+import { postItemToFirbase, deleteItemFromFirebase, updateItemChildren, updateFile } from '../../../api';
 
+
+export function* updateFileOnAction() {
+    while(true) {
+        const action = yield take('EDIT_FILE');
+        const { id, content, name } = action.payload;
+        yield call(updateFile, id, name, content);
+        yield call(loadData);
+    }
+}
 
 export function* postOnAction() {
     while (true) {
-        const action = yield take('ADD_CHARACTER')
+        const action = yield take('ADD_CHARACTER');
         const { folder } = action.payload;
 
         const currentItem = yield select((state) => state.app.currentItem);
         delete currentItem.childs;
 
         if(folder.parents.includes(0)) {// should delete
-            folder.parents = folder.parents.filter(parentId => parentId !== 0)
+            folder.parents = folder.parents.filter(parentId => parentId !== 0);
         }
 
         if (currentItem.id !== 0) {
@@ -38,9 +47,10 @@ export function* deleteOnAction() {
     }
 }
 
-// export default function* charactersSaga() {
-//     // yield takeLatest('ADD_CHARACTER', createCharacterSaga)
-//     yield fork(routeChangeSaga);
-//     yield takeEvery(LOAD_USERS, loadPeopleList);
-//     yield takeEvery(LOAD_USER_DETAILS, loadPeopleDetails);
-// }
+export function* charactersSaga() {
+    yield all([
+        fork(postOnAction),
+        fork(deleteOnAction),
+        fork(updateFileOnAction)
+    ]);
+}

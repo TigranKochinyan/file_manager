@@ -2,13 +2,13 @@ import { call, fork, all, put, take, select } from 'redux-saga/effects';
 import { LOCATION_CHANGE } from 'connected-react-router';
 import { history } from '../../reducers';
 import { getObject, isEmptyObject } from '../../../utils/utils';
-import { getDataFromFirebase } from '../../../api'
+import { getDataFromFirebase } from '../../../api';
 
 export function* loadData() {
-    const dataFromFirebase = yield call(getDataFromFirebase)
-    yield put({type: 'SET_DATA', payload: dataFromFirebase})
+    const dataFromFirebase = yield call(getDataFromFirebase);
+    yield put({type: 'SET_DATA', payload: dataFromFirebase});
 
-    const route = yield select((state) => state.router)
+    const route = yield select((state) => state.router);
     if (route.location.pathname !== '/') {
         let currentFolderId = route.location.pathname.split('/')
         currentFolderId = Number(currentFolderId[currentFolderId.length - 1])
@@ -16,7 +16,7 @@ export function* loadData() {
         if (currentItem) {
             yield put({type: 'SET_CURRENT_ITEM', payload: currentItem});
         } else {
-            history.push('/not-found')
+            history.push('/not-found');
         }
     } else {
         yield put({type: 'SET_CURRENT_ITEM', payload: {
@@ -57,8 +57,6 @@ export function* changeCurrentItemWithRouter(){
 export function* loadBasicData() {
     yield all([
         fork(loadData),
-        // fork(deleteCharacterWacher),
-        // fork(addCharacterWatcher),
         fork(changeCurrentItemWithRouter)
     ]);
 }

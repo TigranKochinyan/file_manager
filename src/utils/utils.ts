@@ -30,12 +30,14 @@ export const isEmptyObject = (obj) => {
     return Object.keys(obj).length === 0 && Object.getPrototypeOf(obj) === Object.prototype;
 }
 
-export const pathCreator = (id: number, parents: number[]): string => {
+export const pathCreator = (id: number, parents: number[], prev: boolean = false): string => {
     let path: number[] = [];
     if (parents.length) {
         path = [...parents]
     }
-    path.push(id)
+    if (!prev) {
+        path.push(id)
+    }
     return path.join('/')
 }
 
