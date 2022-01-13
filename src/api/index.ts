@@ -21,3 +21,7 @@ export const updateItemChildren = async (id, children) => {
         children: children
     })
 }
+
+export const updateFile = async (id, name, content) => {
+    await updateDoc(doc(db, "characters", `${id}`), {name, content}) 
+}
