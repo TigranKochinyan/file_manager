@@ -7,13 +7,11 @@ export const history = createBrowserHistory();
 interface InitialState {
     data: any;
     currentItem: any;
-    loadingData: boolean;
 }
 
 const initial = {
     data: [],
     currentItem: {}, // file or folder
-    loadingData: false,
 }
 
 

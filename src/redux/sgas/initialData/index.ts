@@ -1,29 +1,23 @@
 import { call, fork, all, put, take, select } from 'redux-saga/effects';
 import { LOCATION_CHANGE } from 'connected-react-router';
-import { getFirestore, collection, getDocs, updateDoc, setDoc, doc, deleteDoc } from 'firebase/firestore/lite';
-
-import { db } from '../../../firebase';
-
+import { history } from '../../reducers';
 import { getObject, isEmptyObject } from '../../../utils/utils';
-
-const getDataFromFirebase = async () => {
-    const dataCol = collection(db, 'characters');
-    const dataSnapshot = await getDocs(dataCol);
-    const dataList = dataSnapshot.docs.map(doc => doc.data());
-    return dataList;
-}
+import { getDataFromFirebase } from '../../../api'
 
 export function* loadData() {
     const dataFromFirebase = yield call(getDataFromFirebase)
-    yield put({type: 'SET_DATA', payload: dataFromFirebase});
+    yield put({type: 'SET_DATA', payload: dataFromFirebase})
 
     const route = yield select((state) => state.router)
     if (route.location.pathname !== '/') {
-        console.log(route.location.pathname)
         let currentFolderId = route.location.pathname.split('/')
         currentFolderId = Number(currentFolderId[currentFolderId.length - 1])
         const currentItem = dataFromFirebase.find(item => item.id === currentFolderId)
-        yield put({type: 'SET_CURRENT_ITEM', payload: currentItem});
+        if (currentItem) {
+            yield put({type: 'SET_CURRENT_ITEM', payload: currentItem});
+        } else {
+            history.push('/not-found')
+        }
     } else {
         yield put({type: 'SET_CURRENT_ITEM', payload: {
             id: 0,
@@ -37,7 +31,7 @@ export function* loadData() {
     }
 }
 
-export function* changeCurrentItemWithRouter(){// TODO not working in first rendering
+export function* changeCurrentItemWithRouter(){
     while (true) {
         const action = yield take(LOCATION_CHANGE);
         const data = yield select(s => s.app.data);

@@ -1,40 +1,46 @@
-import { call, apply, takeEvery, takeLatest } from "redux-saga/effects";
+import { call, apply, takeEvery, select, take, takeLatest } from "redux-saga/effects";
+import { loadData } from "../initialData";
+import { postItemToFirbase, deleteItemFromFirebase, updateItemChildren } from '../../../api';
 
 
-const getData = newFolder => fetch('http://localhost:3005/characters', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(newFolder) // body data type must match "Content-Type" header
-});
+export function* postOnAction() {
+    while (true) {
+        const action = yield take('ADD_CHARACTER')
+        const { folder } = action.payload;
 
-export function* createCharacterSaga(action) {
-    console.log('ssss', action);
-    
+        const currentItem = yield select((state) => state.app.currentItem);
+        delete currentItem.childs;
 
-    // const { folder } = action;
-    // const subscriberDetails = yield axios.post(`${ENDPOINTS.SUBSCRIBER.POST.URL}`, subscriber).then(response => response.data);
-    // yield put({ type: types.CREATE_SUBSCRIBER_SUCCESS, data: subscriberDetails });
-    // } catch (error) {
-    //     yield put({ type: types.CREATE_SUBSCRIBER_FAILED, error });
-    // }
-    const newFolder = {
-        id: 77777778978,
-        name: 'Vardaeffffffffffffn',
-        type: 'folder',
-        children: [],
-        parents: []
+        if(folder.parents.includes(0)) {// should delete
+            folder.parents = folder.parents.filter(parentId => parentId !== 0)
+        }
+
+        if (currentItem.id !== 0) {
+            yield call(updateItemChildren, currentItem.id, [...currentItem.children, folder.id])
+        }
+        yield call(postItemToFirbase, folder)
+        yield call(loadData)
     }
-    console.log('mog');
-    const request = yield call(getData, newFolder)
-    const data = yield call(request, request.json)
-
-    console.log('aaaaaaaaaaaaaaa', data);
-    
- 
 }
 
-export default function* charactersSaga() {
-    yield takeLatest('ADD_CHARACTER', createCharacterSaga)
+export function* deleteOnAction() {
+    while (true) {
+        const action = yield take('DELETE_ITEM');
+        const { id } = action.payload;
+        const foldersInfo = yield select((state) => state.app.data);
+        const currentItem = foldersInfo.find(item => item.id === id)
+        const parrentItem = foldersInfo.find(item => item.id === currentItem.parentId)
+        const updatedChildren = parrentItem.children.filter(childId => childId !== currentItem.id)
+        
+        yield call(updateItemChildren, currentItem.parentId, updatedChildren)
+        yield call(deleteItemFromFirebase, `${id}`)
+        yield call(loadData)
+    }
 }
+
+// export default function* charactersSaga() {
+//     // yield takeLatest('ADD_CHARACTER', createCharacterSaga)
+//     yield fork(routeChangeSaga);
+//     yield takeEvery(LOAD_USERS, loadPeopleList);
+//     yield takeEvery(LOAD_USER_DETAILS, loadPeopleDetails);
+// }

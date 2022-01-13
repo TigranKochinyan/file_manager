@@ -39,7 +39,7 @@ export const pathCreator = (id: number, parents: number[]): string => {
     return path.join('/')
 }
 
-export const getBreadCrumbs = (path) => {
+export const getBreadCrumbs = (path: string): {name: string, url: string}[] => {
     const ids: string[] = path.split('/').slice(1)
     const roads: { name: string, url: string }[] = ids.map((name, idIndex) => {
         const url: string = path.split('/').slice(0, idIndex + 2).join('/')
