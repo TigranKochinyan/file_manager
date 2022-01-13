@@ -16,9 +16,10 @@ interface FileProps {
     name: string;
     id: number;
     parents: number[];
+    activeItemId: number;
 }
 
-const File: FC<FileProps> = ({name, id, parents}) => {
+const File: FC<FileProps> = ({name, id, parents, activeItemId}) => {
     const handleClickList = (): void => {
         history.push(`/${pathCreator(id, parents)}`);
     }
@@ -29,7 +30,7 @@ const File: FC<FileProps> = ({name, id, parents}) => {
             aria-labelledby="nested-list-subheader"
             classes={{ root: styles.navigation }}
         >
-            <ListItemButton onClick={handleClickList} sx={{ pl: parents.length + 2 }}>
+            <ListItemButton className={activeItemId === id ? styles.list_active : ''} onClick={handleClickList} sx={{ pl: parents.length + 2 }}>
                 <ListItemIcon classes={{ root: styles.listIcon }}>
                 <ArticleIcon />
                     </ListItemIcon>

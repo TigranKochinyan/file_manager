@@ -26,6 +26,7 @@ interface FolderProps {
     name: string;
     id: number;
     childs: number[];
+    activeItemId: number;
 }
 
 interface ItemDataTypes {
@@ -34,11 +35,11 @@ interface ItemDataTypes {
     id: number;
     name: string;
     parentId: number;
-    parents: number[]
-    type: "folder"
+    parents: number[];
+    type: "folder";
 }
 
-const Folder: FC<FolderProps> = ({name, id, childs}) => {
+const Folder: FC<FolderProps> = ({name, id, childs, activeItemId}) => {
     const [open, setOpen] = useState(false);
     const foldersInfo = useSelector((state: RootState) => state.app.data)
     
@@ -65,10 +66,10 @@ const Folder: FC<FolderProps> = ({name, id, childs}) => {
             <ListItemButton
                 onClick={handleClickList}
                 sx={{ pl: itemData.parents.length + 2 }}
-                // className={props.activeId === props.id ? styles.list_active : ''}
+                className={activeItemId === id ? styles.list_active : ''}
             >
                 <ListItemIcon classes={{ root: styles.listIcon }}>
-                    {(itemData && itemData.childs) && itemData.childs.length 
+                    {itemData.childs && itemData.childs.length
                         ? <FolderIcon /> 
                         : <FolderOpenIcon />
                     }
@@ -84,8 +85,8 @@ const Folder: FC<FolderProps> = ({name, id, childs}) => {
             <Collapse in={open} timeout="auto" unmountOnExit>
                 {(itemData.childs) && itemData.childs.map((child: FolderTypes | FileTypes) => { // TODO dzel
                     return (child.type === 'file') 
-                        ? <File key={child.id} name={child.name} id={child.id} parents={child.parents}/>
-                        : <Folder name={child.name} key={child.id} id={child.id} childs={child.children} />
+                        ? <File key={child.id} name={child.name} id={child.id} parents={child.parents} activeItemId={activeItemId}/>
+                        : <Folder name={child.name} key={child.id} id={child.id} childs={child.children} activeItemId={activeItemId} />
                 })}
             </Collapse>
         </List>
