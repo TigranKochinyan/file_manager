@@ -1,7 +1,7 @@
 import { FC } from 'react'; 
 import { history } from '../../../redux/reducers';
 
-import { pathCreator } from '../../../utils/utils';
+import { pathCreator } from '../../../utils';
 
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';

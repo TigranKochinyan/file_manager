@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/reducers';
 import { history } from '../../../redux/reducers';
 
-import { pathCreator, filterByIds } from '../../../utils/utils';
+import { pathCreator, filterByIds } from '../../../utils';
 import { FolderTypes } from '../../../types/folder';
 import { FileTypes } from '../../../types/file';
 

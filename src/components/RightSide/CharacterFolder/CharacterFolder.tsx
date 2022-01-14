@@ -2,6 +2,7 @@ import { ReactElement, FC, useState } from 'react';
 import FolderIcon from '@mui/icons-material/Folder';
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 
+import { Box, Typography } from '@mui/material';
 import styles from './index.module.scss';
 
 interface CharacterFolderProps {
@@ -23,22 +24,19 @@ const CharacterFolder: FC<CharacterFolderProps> = ({ name, isEmpty, id, handleCl
     }
 
     return (
-        <div
+        <Box
         onClick={(event) => handleSelect(event, id)}
         // onBlur={(e) => handleClick(e, id, true)}
         className={styles.character}
         data-selected={isSelected}
         tabIndex={0}
         >
-            <div className=''>
-                {
-                    isEmpty 
-                    ? <FolderIcon fontSize='large' classes={{ root: styles.character_icon }} />
-                    : <FolderOpenIcon fontSize='large' classes={{ root: styles.character_icon }} />
-                }
-            </div>
-            <p className={styles.folderNameText}>{name}</p>
-        </div>
+            {isEmpty 
+                ? <FolderIcon fontSize='large' classes={{ root: styles.character_icon }} />
+                : <FolderOpenIcon fontSize='large' classes={{ root: styles.character_icon }} />
+            }
+            <Typography className={styles.folderNameText}>{name}</Typography>
+        </Box>
     )
 }
 

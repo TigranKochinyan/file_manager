@@ -1,7 +1,7 @@
 import { call, fork, all, put, select, takeLatest } from 'redux-saga/effects';
 import { LOCATION_CHANGE } from 'connected-react-router';
 import { history } from '../../reducers';
-import { getObject, isEmptyObject, folderCretor, getIdFromPath } from '../../../utils/utils';
+import { getObject, isEmptyObject, folderCretor, getIdFromPath } from '../../../utils';
 import { getDataFromFirebase } from '../../../api';
 import { FolderTypes } from '../../../types/folder';
 import { FileTypes } from '../../../types/file';

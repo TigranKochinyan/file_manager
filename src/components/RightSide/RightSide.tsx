@@ -1,4 +1,4 @@
-import { ReactElement, useState } from 'react'; 
+import { ReactElement, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { FoldersInfo } from '../../store/types';
 import { history } from '../../redux/reducers';
@@ -7,8 +7,7 @@ import Item from './Item';
 import ActionBttons from './ActionsButtons';
 import Road from './Road';
 
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
+import { Box, Typography, Grid } from '@mui/material';
 import styles from './index.module.scss';
 
 const RightSide = (): ReactElement => {
@@ -23,7 +22,7 @@ const RightSide = (): ReactElement => {
         history.push(`${history.location.pathname}/${id}`)
     };
 
-    const handleSelectElement = (event, id) => {
+    const handleSelectElement = (event, id): void => {
         if(selectedItems.includes(id)){
             setSelectedItems(state => state.filter(selectedId => selectedId !== id))
         } else {
@@ -31,7 +30,7 @@ const RightSide = (): ReactElement => {
         }
     }
     
-    return <div className={styles.rightSide}>
+    return <Box className={styles.rightSide}>
         <Road />
         <ActionBttons
             id={currentFolder.id}
@@ -49,7 +48,7 @@ const RightSide = (): ReactElement => {
                 ))}
             </Grid>
         }
-    </div>
+    </Box>
 }
 
 export default RightSide;

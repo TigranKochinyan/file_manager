@@ -2,20 +2,22 @@ import { ReactElement, FC, useState, ChangeEvent, useEffect, useMemo } from 'rea
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../redux/reducers';
 
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import TextareaAutosize from '@mui/material/TextareaAutosize';
-import DialogTitle from '@mui/material/DialogTitle';
+import { 
+    Box,
+    Button,
+    TextField,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    TextareaAutosize,
+    DialogTitle,
+} from '@mui/material';
 
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import EditIcon from '@mui/icons-material/Edit';
 
-import { idGenerator, fileCretor, folderCretor } from '../../../utils/utils';
+import { idGenerator, fileCretor, folderCretor } from '../../../utils';
 
 import styles from './index.module.scss';
 

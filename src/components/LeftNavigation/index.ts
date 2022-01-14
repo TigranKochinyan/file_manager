@@ -1,2 +1,2 @@
-import LeftNavigation from './LeftNavigation'
+import LeftNavigation from './LeftNavigation';
 export default LeftNavigation;

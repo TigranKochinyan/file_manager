@@ -7,7 +7,7 @@ import {
     updateFile,
     deleteItemsFromFirebase
 } from '../../../api';
-import { getAllChildrenIds } from "../../../utils/utils";
+import { getAllChildrenIds } from "../../../utils";
 
 export function* updateFileOnAction(action) {
     const { id, content, name } = action.payload;

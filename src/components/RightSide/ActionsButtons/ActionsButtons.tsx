@@ -2,7 +2,7 @@ import { FC, ReactElement } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { history } from '../../../redux/reducers';
 import { RootState } from '../../../redux/reducers';
-import { pathCreator } from '../../../utils/utils';
+import { pathCreator } from '../../../utils';
 
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';

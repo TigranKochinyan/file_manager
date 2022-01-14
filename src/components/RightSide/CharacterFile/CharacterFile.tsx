@@ -1,6 +1,8 @@
 import { useState, FC, ReactElement, SyntheticEvent } from 'react';
 import ArticleIcon from '@mui/icons-material/Article';
 
+import { Box, Typography } from '@mui/material';
+
 import styles from './index.module.scss';
 
 interface CharacterFileProps {
@@ -22,18 +24,16 @@ const CharacterFile: FC<CharacterFileProps> = ({ name, id, handleClick }): React
     }
 
     return (
-        <div
+        <Box
             onClick={(e) => handleSelect(e, id)}
             // onBlur={(e) => handleSelect(e, id)}
             className={styles.character}
             data-selected={isSelected}
             tabIndex={0}
-        >
-            <div className=''>
-                <ArticleIcon fontSize='large' classes={{ root: styles.character_icon }} />
-            </div>
-            <p className={styles.fileNameText}>{name}</p>
-        </div>
+        >            
+            <ArticleIcon fontSize='large' classes={{ root: styles.character_icon }} />
+            <Typography className={styles.fileNameText}>{name}</Typography>
+        </Box>
     )
 }
 
