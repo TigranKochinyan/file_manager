@@ -1,7 +1,7 @@
 export interface FolderTypes {
     id: number;
     name: string;
-    parentId: string;
+    parentId: number;
     type: 'folder';
     children: number[];
     parents: number[];

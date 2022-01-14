@@ -2,40 +2,31 @@ import { combineReducers } from "@reduxjs/toolkit";
 import { connectRouter } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 
+import { appReducer } from './characters';
+import { curentItemReducer } from './currentItem';
+
 export const history = createBrowserHistory();
 
-interface InitialState {
+interface InitialStateData {
     data: any;
-    currentItem: any;
 }
 
-const initial = {
-    data: [],
+interface InitialStateCurrentItem {
+    
+}
+
+const initialData = {
+    data: []
+}
+
+const initialCurentItem = {
     currentItem: {}, // file or folder
-}
 
-export function appReducer(state: InitialState = initial, action) {
-    switch (action.type) {
-        case 'SET_DATA': {
-            return {
-                ...state,
-                data: action.payload
-            }
-        }
-        case 'SET_CURRENT_ITEM': {
-            return {
-                ...state,
-                currentItem: action.payload
-            }
-        }
-        default:
-            return state;
-    }
 }
-
 
 const rootReducer = combineReducers({
-    app: appReducer,
+    data: appReducer,
+    currentItem: curentItemReducer,
     router: connectRouter(history)
 })
 

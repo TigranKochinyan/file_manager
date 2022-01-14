@@ -6,11 +6,11 @@ import styles from './index.module.scss';
 interface CharacterFileProps {
     id: number;
     name: string;
-    selected: boolean;
+    selected?: boolean;
     handleClick: (e: SyntheticEvent, id: number, blured?: boolean) => void;
 }
 
-const CharacterFile: FC<CharacterFileProps> = ({ name, id, selected, handleClick }): ReactElement => {
+const CharacterFile: FC<CharacterFileProps> = ({ name, id, handleClick }): ReactElement => {
 
     const [isSelected, setIsSelected] = useState(false); //TODO add selecting functionality (maybe)
 
@@ -19,7 +19,6 @@ const CharacterFile: FC<CharacterFileProps> = ({ name, id, selected, handleClick
             setIsSelected(!isSelected)
             handleClick(event, id)
         }
-        
     }
 
     return (

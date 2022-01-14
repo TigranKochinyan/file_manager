@@ -15,6 +15,8 @@ import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import EditIcon from '@mui/icons-material/Edit';
 
+import { idGenerator, fileCretor, folderCretor } from '../../../utils/utils';
+
 import styles from './index.module.scss';
 
 export enum ItemType {
@@ -29,6 +31,14 @@ interface ModalFormProps {
 }
 
 const ModalForm: FC<ModalFormProps> = ({type, disabled}): ReactElement => {
+    const dispatch = useDispatch();
+    const currentFolder = useSelector((state: RootState) => state.currentItem);
+    const foldersInfo = useSelector((state: RootState) =>  state.data);
+    
+    const [open, setOpen] = useState(false);
+    const [inputName, setInputName] = useState('');
+    const [inputContent, setInputContent] = useState('');
+
     const icon = useMemo((): JSX.Element => {
         switch (type) {
             case ItemType.FILE:
@@ -38,57 +48,64 @@ const ModalForm: FC<ModalFormProps> = ({type, disabled}): ReactElement => {
             default:
                 return <EditIcon />
         }
-    }, [type])
+    }, [type]);
 
-    const dispatch = useDispatch()
-    const currentFolder = useSelector((state: RootState) => state.app.currentItem)
-    const foldersInfo = useSelector((state: RootState) =>  state.app.data)
-    
-    const [open, setOpen] = useState(false);
-    const [folderName, setFolderName] = useState('');
-    const [fileContent, setFileContent] = useState('');
+    const dialogTitle = useMemo((): string => {
+        switch (type) {
+            case ItemType.FILE:
+                return 'Create a new File'
+            case ItemType.FOLDER:
+                return 'Create a new Folder'
+            default:
+                return 'Edit'
+        }
+    }, [type]);
 
     useEffect(() => {
         if(type === ItemType.EDIT_FILE) {
-            setFolderName(currentFolder.name)
-            setFileContent(currentFolder.content)
+            setInputName(currentFolder.name)
+            setInputContent(currentFolder.content)
         }
     }, [])
 
     const handleNameInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
-        setFolderName(event.target.value);
+        setInputName(event.target.value);
     };
 
     const handleContentInputChange = (event) => {
-        setFileContent(event.target.value)
+        setInputContent(event.target.value);
     }
 
     const handleClickOpen = (): void => setOpen(true);
-
     const handleClose = (): void => setOpen(false);
 
     const handleSubmit = (): void => {
         setOpen(false);
-        const id = currentFolder.type === 'folder'
-            ? Number(`${currentFolder.id}${currentFolder.children.length + 1}`)
-            : currentFolder.id + 1;
-        const item: any = {
-            id,
-            name: folderName,
-            type,
-            parents: [...currentFolder.parents, currentFolder.id],
-            parentId: currentFolder.id
-        }
-        if(type === ItemType.FILE) {
-            item.content = fileContent.trim();
-        } else {
-            item.children = [];
-        }
+        const id = idGenerator(foldersInfo);
+        let item = type === ItemType.FILE 
+            ? fileCretor({
+                id,
+                name: inputName,
+                type: ItemType.FILE,
+                parents: [...currentFolder.parents, currentFolder.id],
+                parentId: currentFolder.id,
+                content: inputContent.trim()
+            })
+            : folderCretor({
+                id,
+                name: inputName,
+                type: ItemType.FOLDER,
+                parents: [...currentFolder.parents, currentFolder.id],
+                parentId: currentFolder.id,
+                children: []
+            })
         if(type === ItemType.EDIT_FILE) {
-            dispatch({type: 'EDIT_FILE', payload: {name: folderName, id: currentFolder.id, content: fileContent}})
+            dispatch({type: 'EDIT_FILE', payload: {name: inputName, id: currentFolder.id, content: inputName}});
         } else {
-            dispatch({type: 'ADD_CHARACTER', payload: {folder: item}})
+            dispatch({type: 'ADD_CHARACTER', payload: {folder: item}});
         }
+        setInputName('');
+        setInputContent('');
     };
 
     return <Box>
@@ -96,7 +113,7 @@ const ModalForm: FC<ModalFormProps> = ({type, disabled}): ReactElement => {
             {icon}
         </Button>
         <Dialog open={open} onClose={handleClose}>
-            <DialogTitle>Create a new Folder</DialogTitle>
+            <DialogTitle>{dialogTitle}</DialogTitle>
             <DialogContent>
                 <TextField
                     autoFocus
@@ -104,7 +121,7 @@ const ModalForm: FC<ModalFormProps> = ({type, disabled}): ReactElement => {
                     type="text"
                     fullWidth
                     variant="standard"
-                    value={folderName}
+                    value={inputName}
                     onChange={handleNameInputChange}
                 />
                 {(type === ItemType.FILE || type === ItemType.EDIT_FILE) &&
@@ -114,7 +131,7 @@ const ModalForm: FC<ModalFormProps> = ({type, disabled}): ReactElement => {
                         aria-label="maximum height"
                         placeholder="Write to file"
                         onChange={handleContentInputChange}
-                        value={fileContent}
+                        value={inputContent}
                     />
                 }
             </DialogContent>

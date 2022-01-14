@@ -4,32 +4,21 @@ import { RootState } from '../../redux/reducers';
 import { FileTypes } from '../../types/file';
 import { FolderTypes } from '../../types/folder';
 
-import Folder from './Folder';
-import File from './File';
+import Item from './Item';
 
 import styles from './index.module.scss';
 
 const LeftNavigation = () => {
-    const foldersInfo: any[] = useSelector((state: RootState) => state.app.data)
-    const currentFolder = useSelector((state: RootState) => state.app.currentItem)
+    const foldersInfo: any[] = useSelector((state: RootState) => state.data);
+    const currentFolder = useSelector((state: RootState) => state.currentItem);
       
     return <div className={styles.leftNavigation}>
         {foldersInfo.filter((item: FolderTypes | FileTypes) => item.parents.length === 0).map(item => (
-            (item.type === 'file')
-                ? <File
-                    name={item.name}
-                    key={item.id}
-                    id={item.id}
-                    parents={item.parents}
-                    activeItemId={currentFolder.id}
-                />  
-                : <Folder
-                    key={item.id}
-                    name={item.name}
-                    id={item.id}
-                    childs={item.children}
-                    activeItemId={currentFolder.id}
-                />
+            <Item
+                key={item.id}
+                id={item.id}
+                activeItemId={currentFolder.id}
+            />
             ))
         }
     </div>

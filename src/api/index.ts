@@ -22,6 +22,16 @@ export const updateItemChildren = async (id, children) => {
     })
 }
 
+export const deleteItemsFromFirebase = async (ids) => {
+    const dataCol = await collection(db, 'characters');
+    const dataSnapshot = await getDocs(dataCol);
+    dataSnapshot.docs.forEach(async (item)  => {
+        if (ids.includes(item.data().id)) {
+            await deleteDoc(doc(db, "characters", `${item.data().id}`));
+        }
+    }) 
+}
+
 export const updateFile = async (id, name, content) => {
     await updateDoc(doc(db, "characters", `${id}`), {name, content}) 
 }

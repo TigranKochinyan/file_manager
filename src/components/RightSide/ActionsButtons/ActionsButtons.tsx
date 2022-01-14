@@ -2,7 +2,7 @@ import { FC, ReactElement } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { history } from '../../../redux/reducers';
 import { RootState } from '../../../redux/reducers';
-import { getPathFromId, pathCreator } from '../../../utils/utils';
+import { pathCreator } from '../../../utils/utils';
 
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
@@ -16,29 +16,34 @@ import { ItemType } from '../ModalForm/ModalForm';
 
 interface ActionButtonsProps {
     id: number,
-    type: 'file' | 'folder';
+    type: ItemType.FILE | ItemType.FOLDER;
 }
 
 const ActionBttons: FC<ActionButtonsProps> = ({id, type}): ReactElement => {
-    const currentItem = useSelector((state: RootState) =>  state.app.currentItem)
+    const currentItem = useSelector((state: RootState) =>  state.currentItem)
     const dispatch = useDispatch();
-    const deleteFile = (id: number): void => {
+
+    const deleteFile = (): void => {
         dispatch({type: 'DELETE_ITEM', payload: {id}});
-        history.goBack();
+        history.push('/' + pathCreator(currentItem.id, currentItem.parents, true))
+    }
+
+    const handleClick = (): void => {
+        history.push('/' + pathCreator(currentItem.id, currentItem.parents, true))
     }
 
     return <Stack direction="row" spacing={2}>
         <Button
             variant="contained"
-            onClick={() => history.push('/' + pathCreator(currentItem.id, currentItem.parents, true))}
+            onClick={handleClick}
             startIcon={<KeyboardBackspaceIcon />}
         />
         <Button
             variant="contained"
-            onClick={() => deleteFile(id)}
+            onClick={deleteFile}
             startIcon={<DeleteIcon />}
         />
-        {type === 'folder' 
+        {type === ItemType.FOLDER
             ? <>
                 <ModalForm type={ItemType.FOLDER}/>
                 <ModalForm type={ItemType.FILE}/>
