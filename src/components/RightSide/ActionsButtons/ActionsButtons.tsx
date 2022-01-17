@@ -1,41 +1,55 @@
+import { FC, ReactElement } from 'react';
 import { useDispatch } from 'react-redux';
 import { history } from '../../../redux/reducers';
+import { pathCreator } from '../../../utils';
 
-// import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
-// import FeedIcon from '@mui/icons-material/Feed';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import ModalForm from '../ModalForm';
 
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { ItemType } from '../ModalForm/ModalForm';
+import useTypedSelector from '../../../hooks/useTypedSelector';
 
-import styles from './index.module.scss';
+// import styles from './index.module.scss';
 
 interface ActionButtonsProps {
-    parentId: number;
+    id: number,
+    type: ItemType.FILE | ItemType.FOLDER;
 }
 
-const ActionBttons = ({id, parentId, disableActions}) => {
+const ActionBttons: FC<ActionButtonsProps> = ({id, type}): ReactElement => {
+    const currentItem = useTypedSelector((state) =>  state.currentItem);
     const dispatch = useDispatch();
-    const deleteFile = (id) => {
+
+    const deleteFile = (): void => {
         dispatch({type: 'DELETE_ITEM', payload: {id}});
-        history.goBack();
+        history.push('/' + pathCreator(currentItem.id, currentItem.parents, true))
     }
-    
+
+    const handleClick = (): void => {
+        history.push('/' + pathCreator(currentItem.id, currentItem.parents, true))
+    }
+
     return <Stack direction="row" spacing={2}>
         <Button
-            variant="contained" 
-            onClick={() => history.goBack()}
+            variant="contained"
+            onClick={handleClick}
             startIcon={<KeyboardBackspaceIcon />}
         />
-        <Button 
-            variant="contained" 
-            onClick={() => deleteFile(id)}
+        <Button
+            variant="contained"
+            onClick={deleteFile}
             startIcon={<DeleteIcon />}
         />
-        <ModalForm disabled={disableActions} type="folder"/>
-        <ModalForm disabled={disableActions} type="file"/>
+        {type === ItemType.FOLDER
+            ? <>
+                <ModalForm type={ItemType.FOLDER}/>
+                <ModalForm type={ItemType.FILE}/>
+            </>
+            : <ModalForm type={ItemType.EDIT_FILE}/>
+        }
     </Stack>
 }
 

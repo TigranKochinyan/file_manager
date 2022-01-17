@@ -1,4 +1,7 @@
+import { FC } from 'react'; 
 import { history } from '../../../redux/reducers';
+
+import { pathCreator } from '../../../utils';
 
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -9,19 +12,16 @@ import ArticleIcon from '@mui/icons-material/Article';
 
 import styles from './index.module.scss';
 
-const pathCreator = (item) => {// folder or file data 
-    let path: number[] = [];
-    if (item.parents.length) {
-        path = [...item.parents]
-    }
-    path.push(item.id)
-    return path.join('/')
+interface FileProps {
+    name: string;
+    id: number;
+    parents: number[];
+    activeItemId: number;
 }
 
-const File = ({name, id, parents}) => {
-    
-    const handleClickList = () => {
-        history.push(`/${pathCreator({id, parents})}`);
+const File: FC<FileProps> = ({name, id, parents, activeItemId}) => {
+    const handleClickList = (): void => {
+        history.push(`/${pathCreator(id, parents)}`);
     }
     return (
         <List 
@@ -30,7 +30,7 @@ const File = ({name, id, parents}) => {
             aria-labelledby="nested-list-subheader"
             classes={{ root: styles.navigation }}
         >
-            <ListItemButton onClick={handleClickList} sx={{ pl: parents.length + 2 }}>
+            <ListItemButton className={activeItemId === id ? styles.list_active : ''} onClick={handleClickList} sx={{ pl: parents.length + 2 }}>
                 <ListItemIcon classes={{ root: styles.listIcon }}>
                 <ArticleIcon />
                     </ListItemIcon>

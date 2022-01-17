@@ -1,37 +1,38 @@
-import { useState } from 'react';
+import { useState, FC, ReactElement, SyntheticEvent } from 'react';
 import ArticleIcon from '@mui/icons-material/Article';
+
+import { Box, Typography } from '@mui/material';
 
 import styles from './index.module.scss';
 
-const CharacterFile = ({ name, id, selected, handleClick }) => {
+interface CharacterFileProps {
+    id: number;
+    name: string;
+    selected?: boolean;
+    handleClick: (e: SyntheticEvent, id: number, blured?: boolean) => void;
+}
+
+const CharacterFile: FC<CharacterFileProps> = ({ name, id, handleClick }): ReactElement => {
 
     const [isSelected, setIsSelected] = useState(false); //TODO add selecting functionality (maybe)
 
-    // const handleClick = (event, id, select = !isSelected) => {
-    //     // add id to parent component state or add it to store/ selectedItems
-
-    //     console.log(event);
-        
-    //     if (event.ctrlKey) {
-    //         console.log('With ctrl, do something...');
-    //         return;
-    //     }
-    //     setIsSelected(select)
-    // }
+    const handleSelect = (event, id) => {
+        if (event.ctrlKey) {
+            setIsSelected(!isSelected)
+            handleClick(event, id)
+        }
+    }
 
     return (
-        <div
-            onClick={(e) => handleClick(e, id)}
-            onBlur={(e) => handleClick(e, id, true)}
-            className={styles.character} 
-            data-selected={selected}
+        <Box
+            onClick={(e) => handleSelect(e, id)}
+            className={styles.character}
+            data-selected={isSelected}
             tabIndex={0}
-        >
-            <div className=''>
-                <ArticleIcon fontSize='large' classes={{ root: styles.character_icon }} />
-            </div>
-            <p className={styles.fileNameText}>{name}</p>
-        </div>
+        >            
+            <ArticleIcon fontSize='large' classes={{ root: styles.character_icon }} />
+            <Typography className={styles.fileNameText}>{name}</Typography>
+        </Box>
     )
 }
 

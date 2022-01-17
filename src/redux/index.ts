@@ -5,10 +5,9 @@ import { routerMiddleware } from 'connected-react-router';
 import reducer, { history } from './reducers';
 import rootSaga from './sgas';
 
-declare const window: any; //TODO 
+declare const window: any; //TODO
 
-
-const sagaMiddleware = createSagaMiddleware()
+const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(
     reducer,
@@ -20,6 +19,6 @@ const store = createStore(
     )
 )
 
-sagaMiddleware.run(rootSaga)
+sagaMiddleware.run(rootSaga);
 
 export default store;
