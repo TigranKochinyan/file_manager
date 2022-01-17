@@ -35,6 +35,7 @@ const RightSide = (): ReactElement => {
         <ActionBttons
             id={currentFolder.id}
             type={currentFolder.type}
+            selectedIds={selectedItems}
         />
         {
             currentFolder.type === 'file' ? 

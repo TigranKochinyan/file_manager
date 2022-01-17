@@ -4,10 +4,12 @@ import { pathCreator } from '../../../utils';
 
 import Item from '../Item';
 
-import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import Collapse from '@mui/material/Collapse';
-import ListItemText from '@mui/material/ListItemText';
+import {
+    List,
+    Collapse,
+    ListItemText,
+    ListItemButton
+} from '@mui/material';
 
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
@@ -26,7 +28,7 @@ interface FolderProps {
 }
 
 const Folder: FC<FolderProps> = ({name, id, childrenIds, activeItemId, parents}) => {
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState<boolean>(false);
     const handleClickList = (): void => {
         history.push(`/${pathCreator(id, parents)}`);
         setOpen(!open);

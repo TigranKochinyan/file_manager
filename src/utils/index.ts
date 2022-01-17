@@ -34,7 +34,7 @@ export const folderCretor = (folderData: FolderTypes) => {
     return folder;
 }
 
-export const idGenerator = (data: any[]): number => {
+export const idGenerator = (data: (FileTypes | FolderTypes)[]): number => {
     if(!data.length) {
         return 1;
     }

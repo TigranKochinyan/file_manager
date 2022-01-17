@@ -8,8 +8,13 @@ import { Breadcrumbs, Typography } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import styles from './index.module.scss';
 
+interface RoadsTypes {
+    name: string;
+    url: string;
+}
+
 const Road = (): ReactElement => {
-    const [roads, setRoads] = useState([{name: '', url: ''}]);
+    const [roads, setRoads] = useState<RoadsTypes[]>([{name: '', url: ''}]);
     const location = useLocation();
 
     useEffect((): void => {

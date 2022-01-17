@@ -14,7 +14,7 @@ interface CharacterFileProps {
 
 const CharacterFile: FC<CharacterFileProps> = ({ name, id, handleClick }): ReactElement => {
 
-    const [isSelected, setIsSelected] = useState(false); //TODO add selecting functionality (maybe)
+    const [isSelected, setIsSelected] = useState<boolean>(false);
 
     const handleSelect = (event, id) => {
         if (event.ctrlKey) {
@@ -29,9 +29,9 @@ const CharacterFile: FC<CharacterFileProps> = ({ name, id, handleClick }): React
             className={styles.character}
             data-selected={isSelected}
             tabIndex={0}
-        >            
+        >
             <ArticleIcon fontSize='large' classes={{ root: styles.character_icon }} />
-            <Typography className={styles.fileNameText}>{name}</Typography>
+            <Typography className={styles.fileNameText} id='erevi_senc'>{name}</Typography>
         </Box>
     )
 }

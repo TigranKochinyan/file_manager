@@ -3,13 +3,13 @@ import { useDispatch } from 'react-redux';
 import { history } from '../../../redux/reducers';
 import { pathCreator } from '../../../utils';
 
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
+import { Button, Stack } from '@mui/material';
 import ModalForm from '../ModalForm';
 
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { ItemType } from '../ModalForm/ModalForm';
+
 import useTypedSelector from '../../../hooks/useTypedSelector';
 
 // import styles from './index.module.scss';
@@ -17,13 +17,14 @@ import useTypedSelector from '../../../hooks/useTypedSelector';
 interface ActionButtonsProps {
     id: number,
     type: ItemType.FILE | ItemType.FOLDER;
+    selectedIds: number[],
 }
 
-const ActionBttons: FC<ActionButtonsProps> = ({id, type}): ReactElement => {
+const ActionBttons: FC<ActionButtonsProps> = ({ id, type, selectedIds }): ReactElement => {
     const currentItem = useTypedSelector((state) =>  state.currentItem);
     const dispatch = useDispatch();
 
-    const deleteFile = (): void => {
+    const deleteItem = (): void => {
         dispatch({type: 'DELETE_ITEM', payload: {id}});
         history.push('/' + pathCreator(currentItem.id, currentItem.parents, true))
     }
@@ -40,7 +41,7 @@ const ActionBttons: FC<ActionButtonsProps> = ({id, type}): ReactElement => {
         />
         <Button
             variant="contained"
-            onClick={deleteFile}
+            onClick={deleteItem}
             startIcon={<DeleteIcon />}
         />
         {type === ItemType.FOLDER

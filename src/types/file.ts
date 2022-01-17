@@ -1,8 +1,8 @@
 export interface FileTypes {
-    id: number;
+    readonly id: number;
     name: string;
-    parentId: number;
-    type: 'file';
-    parents: number[];
+    readonly parentId: number;
+    readonly type: 'file';
+    readonly parents: number[];
     content: string;
 }

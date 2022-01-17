@@ -4,12 +4,12 @@ import { useDispatch } from 'react-redux';
 import { 
     Box,
     Button,
-    TextField,
     Dialog,
+    TextField,
+    DialogTitle,
     DialogActions,
     DialogContent,
     TextareaAutosize,
-    DialogTitle,
 } from '@mui/material';
 
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
@@ -37,9 +37,9 @@ const ModalForm: FC<ModalFormProps> = ({ type, disabled }): ReactElement => {
     const currentFolder = useTypedSelector((state) => state.currentItem);
     const foldersInfo = useTypedSelector((state) =>  state.data);
     
-    const [open, setOpen] = useState(false);
-    const [inputName, setInputName] = useState('');
-    const [inputContent, setInputContent] = useState('');
+    const [open, setOpen] = useState<boolean>(false);
+    const [inputName, setInputName] = useState<string>('');
+    const [inputContent, setInputContent] = useState<string>('');
 
     const icon = useMemo((): JSX.Element => {
         switch (type) {
@@ -78,29 +78,30 @@ const ModalForm: FC<ModalFormProps> = ({ type, disabled }): ReactElement => {
         setInputContent(event.target.value);
     }
 
+    
     const handleClickOpen = (): void => setOpen(true);
     const handleClose = (): void => setOpen(false);
-
+    
     const handleSubmit = (): void => {
         setOpen(false);
         const id = idGenerator(foldersInfo);
         let item = type === ItemType.FILE 
-            ? fileCretor({
-                id,
-                name: inputName,
-                type: ItemType.FILE,
-                parents: [...currentFolder.parents, currentFolder.id],
-                parentId: currentFolder.id || 0,
-                content: inputContent.trim()
-            })
-            : folderCretor({
-                id,
-                name: inputName,
-                type: ItemType.FOLDER,
-                parents: [...currentFolder.parents, currentFolder.id],
-                parentId: currentFolder.id || 0,
-                children: []
-            })
+        ? fileCretor({
+            id,
+            name: inputName,
+            type: ItemType.FILE,
+            parents: [...currentFolder.parents, currentFolder.id],
+            parentId: currentFolder.id || 0,
+            content: inputContent.trim()
+        })
+        : folderCretor({
+            id,
+            name: inputName,
+            type: ItemType.FOLDER,
+            parents: [...currentFolder.parents, currentFolder.id],
+            parentId: currentFolder.id || 0,
+            children: []
+        })
         if(type === ItemType.EDIT_FILE) {
             dispatch({type: 'EDIT_FILE', payload: {name: inputName, id: currentFolder.id, content: inputName}});
         } else {
@@ -109,7 +110,10 @@ const ModalForm: FC<ModalFormProps> = ({ type, disabled }): ReactElement => {
         setInputName('');
         setInputContent('');
     };
-
+    const handlePressEnterHandler = (event): void => {
+        event.key === 'Enter' && handleSubmit()
+    }
+    
     return <Box>
         <Button variant="contained" disabled={disabled} onClick={handleClickOpen}>
             {icon}
@@ -125,6 +129,7 @@ const ModalForm: FC<ModalFormProps> = ({ type, disabled }): ReactElement => {
                     variant="standard"
                     value={inputName}
                     onChange={handleNameInputChange}
+                    onKeyPress={handlePressEnterHandler}
                 />
                 {(type === ItemType.FILE || type === ItemType.EDIT_FILE) &&
                     <TextareaAutosize
@@ -134,6 +139,7 @@ const ModalForm: FC<ModalFormProps> = ({ type, disabled }): ReactElement => {
                         placeholder="Write to file"
                         onChange={handleContentInputChange}
                         value={inputContent}
+                        onKeyPress={handlePressEnterHandler}
                     />
                 }
             </DialogContent>

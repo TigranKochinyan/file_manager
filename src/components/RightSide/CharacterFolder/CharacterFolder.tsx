@@ -14,7 +14,7 @@ interface CharacterFolderProps {
 
 const CharacterFolder: FC<CharacterFolderProps> = ({ name, isEmpty, id, handleClick }): ReactElement => {
 
-    const [isSelected, setIsSelected] = useState(false); //TODO add selecting functionality (maybe)
+    const [isSelected, setIsSelected] = useState<boolean>(false); //TODO add selecting functionality (maybe)
 
     const handleSelect = (event, id) => {
         if (event.ctrlKey) {

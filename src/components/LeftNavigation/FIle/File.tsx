@@ -3,10 +3,12 @@ import { history } from '../../../redux/reducers';
 
 import { pathCreator } from '../../../utils';
 
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import List from '@mui/material/List';
+import { 
+    ListItemButton,
+    ListItemIcon,
+    ListItemText,
+    List
+} from '@mui/material';
 
 import ArticleIcon from '@mui/icons-material/Article';
 
