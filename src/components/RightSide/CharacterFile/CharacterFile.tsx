@@ -26,7 +26,6 @@ const CharacterFile: FC<CharacterFileProps> = ({ name, id, handleClick }): React
     return (
         <Box
             onClick={(e) => handleSelect(e, id)}
-            // onBlur={(e) => handleSelect(e, id)}
             className={styles.character}
             data-selected={isSelected}
             tabIndex={0}

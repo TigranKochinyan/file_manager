@@ -32,7 +32,7 @@ interface ModalFormProps {
     disabled?: boolean;
 }
 
-const ModalForm: FC<ModalFormProps> = ({type, disabled}): ReactElement => {
+const ModalForm: FC<ModalFormProps> = ({ type, disabled }): ReactElement => {
     const dispatch = useDispatch();
     const currentFolder = useTypedSelector((state) => state.currentItem);
     const foldersInfo = useTypedSelector((state) =>  state.data);
@@ -68,7 +68,7 @@ const ModalForm: FC<ModalFormProps> = ({type, disabled}): ReactElement => {
             setInputName(currentFolder.name)
             setInputContent(currentFolder.content)
         }
-    }, [])
+    }, [currentFolder, type])
 
     const handleNameInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
         setInputName(event.target.value);
@@ -119,7 +119,7 @@ const ModalForm: FC<ModalFormProps> = ({type, disabled}): ReactElement => {
             <DialogContent>
                 <TextField
                     autoFocus
-                    label="Folder name"
+                    label="Name"
                     type="text"
                     fullWidth
                     variant="standard"

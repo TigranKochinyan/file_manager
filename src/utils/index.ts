@@ -40,7 +40,7 @@ export const idGenerator = (data: any[]): number => {
     }
     let id = data[data.length - 1].id + 1;
     while (data.find(item => item.id === id)) {
-        id++
+        id++;
     }
     return id;
 }

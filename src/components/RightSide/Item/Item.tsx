@@ -16,7 +16,8 @@ const Item: FC<ItemProps> = ({ id, handleSelectElement }): ReactElement | null =
     const itemData: FolderTypes | FileTypes = useMemo(() => {
         const item = foldersInfo.find(item => item.id === id);
         return item;
-    }, [foldersInfo]);
+    }, [foldersInfo, id]);
+    
     if (!itemData) { return null };
 
     return (

@@ -1,4 +1,4 @@
-import { useState, useMemo, FC } from 'react';
+import { useState, FC } from 'react';
 import { history } from '../../../redux/reducers';
 import { pathCreator } from '../../../utils';
 

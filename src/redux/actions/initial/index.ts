@@ -31,7 +31,7 @@ export function* loadData() {
 
 export function* changeCurrentItemWithRouter(action) {
     const data = yield select(state => state.data);
-    if(isEmptyObject(data) || !data.length || action.payload.location.pathname === '/') {
+    if(!data.length || action.payload.location.pathname === '/') {
         yield put({type: 'SET_CURRENT_ITEM', payload: folderCretor({
             id: 0,
             parentId: 0,
@@ -42,7 +42,7 @@ export function* changeCurrentItemWithRouter(action) {
         })});
     } else {
         const id = Number(action.payload.location.pathname.slice(action.payload.location.pathname.lastIndexOf('/') + 1))
-        const currentItem = data.find(item => item.id == id);
+        const currentItem = data.find(item => item.id === id);
         yield put({type: 'SET_CURRENT_ITEM', payload: currentItem});
     }
 }

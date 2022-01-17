@@ -1,7 +1,6 @@
 import { FC, ReactElement } from 'react';
 import { useDispatch } from 'react-redux';
 import { history } from '../../../redux/reducers';
-import { RootState } from '../../../redux/reducers';
 import { pathCreator } from '../../../utils';
 
 import Button from '@mui/material/Button';
@@ -21,7 +20,7 @@ interface ActionButtonsProps {
 }
 
 const ActionBttons: FC<ActionButtonsProps> = ({id, type}): ReactElement => {
-    const currentItem = useTypedSelector((state) =>  state.currentItem)
+    const currentItem = useTypedSelector((state) =>  state.currentItem);
     const dispatch = useDispatch();
 
     const deleteFile = (): void => {
