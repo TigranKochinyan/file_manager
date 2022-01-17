@@ -1,6 +1,5 @@
 import { ReactElement, FC, useState, ChangeEvent, useEffect, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../redux/reducers';
+import { useDispatch } from 'react-redux';
 
 import { 
     Box,
@@ -20,6 +19,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { idGenerator, fileCretor, folderCretor } from '../../../utils';
 
 import styles from './index.module.scss';
+import useTypedSelector from '../../../hooks/useTypedSelector';
 
 export enum ItemType {
     FILE = "file",
@@ -34,8 +34,8 @@ interface ModalFormProps {
 
 const ModalForm: FC<ModalFormProps> = ({type, disabled}): ReactElement => {
     const dispatch = useDispatch();
-    const currentFolder = useSelector((state: RootState) => state.currentItem);
-    const foldersInfo = useSelector((state: RootState) =>  state.data);
+    const currentFolder = useTypedSelector((state) => state.currentItem);
+    const foldersInfo = useTypedSelector((state) =>  state.data);
     
     const [open, setOpen] = useState(false);
     const [inputName, setInputName] = useState('');
@@ -90,7 +90,7 @@ const ModalForm: FC<ModalFormProps> = ({type, disabled}): ReactElement => {
                 name: inputName,
                 type: ItemType.FILE,
                 parents: [...currentFolder.parents, currentFolder.id],
-                parentId: currentFolder.id,
+                parentId: currentFolder.id || 0,
                 content: inputContent.trim()
             })
             : folderCretor({
@@ -98,7 +98,7 @@ const ModalForm: FC<ModalFormProps> = ({type, disabled}): ReactElement => {
                 name: inputName,
                 type: ItemType.FOLDER,
                 parents: [...currentFolder.parents, currentFolder.id],
-                parentId: currentFolder.id,
+                parentId: currentFolder.id || 0,
                 children: []
             })
         if(type === ItemType.EDIT_FILE) {

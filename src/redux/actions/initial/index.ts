@@ -1,10 +1,8 @@
-import { call, fork, all, put, select, takeLatest } from 'redux-saga/effects';
-import { LOCATION_CHANGE } from 'connected-react-router';
+import { call, put, select } from 'redux-saga/effects';
 import { history } from '../../reducers';
-import { getObject, isEmptyObject, folderCretor, getIdFromPath } from '../../../utils';
+import { isEmptyObject, folderCretor, getIdFromPath } from '../../../utils';
 import { getDataFromFirebase } from '../../../api';
-import { FolderTypes } from '../../../types/folder';
-import { FileTypes } from '../../../types/file';
+import { FolderTypes, FileTypes } from '../../../types';
 
 export function* loadData() {
     const dataFromFirebase = yield call(getDataFromFirebase);
@@ -44,14 +42,7 @@ export function* changeCurrentItemWithRouter(action) {
         })});
     } else {
         const id = Number(action.payload.location.pathname.slice(action.payload.location.pathname.lastIndexOf('/') + 1))
-        const currentItem = getObject(data, id);
+        const currentItem = data.find(item => item.id == id);
         yield put({type: 'SET_CURRENT_ITEM', payload: currentItem});
     }
-}
-
-export function* loadBasicData() {
-    yield all([
-        fork(loadData),
-        takeLatest(LOCATION_CHANGE, changeCurrentItemWithRouter)
-    ]);
 }

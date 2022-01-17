@@ -1,5 +1,4 @@
-import { FileTypes } from "../../../types/file";
-import { FolderTypes } from "../../../types/folder";
+import { FileTypes, FolderTypes } from "../../../types";
 
 export function appReducer(state: (FileTypes | FolderTypes)[] = [], action) {
     switch (action.type) {

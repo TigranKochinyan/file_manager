@@ -1,7 +1,7 @@
 import { ReactElement, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { FoldersInfo } from '../../store/types';
 import { history } from '../../redux/reducers';
+
+import useTypedSelector from '../../hooks/useTypedSelector';
 
 import Item from './Item';
 import ActionBttons from './ActionsButtons';
@@ -12,7 +12,7 @@ import styles from './index.module.scss';
 
 const RightSide = (): ReactElement => {
     const [selectedItems, setSelectedItems]: any = useState([]);
-    const currentFolder = useSelector((state: FoldersInfo) => state.currentItem);
+    const currentFolder = useTypedSelector((state) => state.currentItem);
 
     const handleDoubleClick = (id: number): void => {
         if(history.location.pathname === '/') {

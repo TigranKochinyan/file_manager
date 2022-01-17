@@ -1,6 +1,6 @@
 import { call, spawn, all } from 'redux-saga/effects';
-import { loadBasicData } from './initialData';
-import { charactersSaga } from './charactersSaga';
+import { loadBasicData } from './initial';
+import { charactersSaga } from './characters';
 
 export default function* rootSaga() {
     const sagas = [loadBasicData, charactersSaga]; // TODO add comments how its works

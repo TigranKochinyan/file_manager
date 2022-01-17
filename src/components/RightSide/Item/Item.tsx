@@ -1,19 +1,18 @@
-import { ReactElement, useMemo, FC } from 'react';
-import { useSelector } from 'react-redux';
+import { ReactElement, useMemo, FC, SyntheticEvent } from 'react';
+import useTypedSelector from '../../../hooks/useTypedSelector';
 import { RootState } from '../../../redux/reducers';
-import { FileTypes } from '../../../types/file';
-import { FolderTypes } from '../../../types/folder';
+import { FileTypes, FolderTypes } from '../../../types';
 import CharacterFile from '../CharacterFile';
 import CharacterFolder from '../CharacterFolder';
 
 interface ItemProps {
     id: number;
-    handleSelectElement: any;
+    handleSelectElement: ( event: SyntheticEvent, id: number ) => void;
 }
 
 const Item: FC<ItemProps> = ({ id, handleSelectElement }): ReactElement | null => {
 
-    const foldersInfo = useSelector((state: RootState) => state.data)
+    const foldersInfo = useTypedSelector((state: RootState) => state.data)
     const itemData: FolderTypes | FileTypes = useMemo(() => {
         const item = foldersInfo.find(item => item.id === id);
         return item;

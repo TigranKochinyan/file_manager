@@ -7,23 +7,6 @@ import { curentItemReducer } from './currentItem';
 
 export const history = createBrowserHistory();
 
-interface InitialStateData {
-    data: any;
-}
-
-interface InitialStateCurrentItem {
-    
-}
-
-const initialData = {
-    data: []
-}
-
-const initialCurentItem = {
-    currentItem: {}, // file or folder
-
-}
-
 const rootReducer = combineReducers({
     data: appReducer,
     currentItem: curentItemReducer,

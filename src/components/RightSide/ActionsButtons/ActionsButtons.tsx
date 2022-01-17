@@ -1,5 +1,5 @@
 import { FC, ReactElement } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { history } from '../../../redux/reducers';
 import { RootState } from '../../../redux/reducers';
 import { pathCreator } from '../../../utils';
@@ -11,6 +11,7 @@ import ModalForm from '../ModalForm';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { ItemType } from '../ModalForm/ModalForm';
+import useTypedSelector from '../../../hooks/useTypedSelector';
 
 // import styles from './index.module.scss';
 
@@ -20,7 +21,7 @@ interface ActionButtonsProps {
 }
 
 const ActionBttons: FC<ActionButtonsProps> = ({id, type}): ReactElement => {
-    const currentItem = useSelector((state: RootState) =>  state.currentItem)
+    const currentItem = useTypedSelector((state) =>  state.currentItem)
     const dispatch = useDispatch();
 
     const deleteFile = (): void => {

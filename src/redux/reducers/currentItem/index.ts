@@ -1,7 +1,16 @@
-// import { FileTypes } from "../../../types/file";
-// import { FolderTypes } from "../../../types/folder";
+import { FileTypes, FolderTypes } from "../../../types";
+import { fileCretor } from "../../../utils";
 
-export function curentItemReducer(state = {}, action) {
+const initialCurrentItem = fileCretor({
+    id: 0,
+    parentId: 0,
+    name: '',
+    type: 'file',
+    content: '',
+    parents: [],
+})
+
+export function curentItemReducer(state: FileTypes | FolderTypes = initialCurrentItem, action) {
     switch (action.type) {
         case 'SET_CURRENT_ITEM': {
             return {

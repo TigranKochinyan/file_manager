@@ -1,4 +1,4 @@
-import { ReactElement, FC, useState } from 'react';
+import { ReactElement, FC, useState, SyntheticEvent } from 'react';
 import FolderIcon from '@mui/icons-material/Folder';
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 
@@ -9,7 +9,7 @@ interface CharacterFolderProps {
     id: number;
     name: string;
     isEmpty: boolean;
-    handleClick: any; //TODO
+    handleClick: ( event: SyntheticEvent, id: number ) => void;
 }
 
 const CharacterFolder: FC<CharacterFolderProps> = ({ name, isEmpty, id, handleClick }): ReactElement => {
