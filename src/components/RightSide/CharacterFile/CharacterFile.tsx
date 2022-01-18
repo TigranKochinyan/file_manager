@@ -31,7 +31,7 @@ const CharacterFile: FC<CharacterFileProps> = ({ name, id, handleClick }): React
             tabIndex={0}
         >
             <ArticleIcon fontSize='large' classes={{ root: styles.character_icon }} />
-            <Typography className={styles.fileNameText} id='erevi_senc'>{name}</Typography>
+            <Typography data-testId="cahracterFile-name" className={styles.fileNameText}>{name}</Typography>
         </Box>
     )
 }

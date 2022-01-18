@@ -32,10 +32,10 @@ const CharacterFolder: FC<CharacterFolderProps> = ({ name, isEmpty, id, handleCl
         tabIndex={0}
         >
             {isEmpty 
-                ? <FolderIcon fontSize='large' classes={{ root: styles.character_icon }} />
-                : <FolderOpenIcon fontSize='large' classes={{ root: styles.character_icon }} />
+                ? <FolderIcon data-testId="cahracterFolder-folderIcon-empty" fontSize='large' classes={{ root: styles.character_icon }} />
+                : <FolderOpenIcon data-testId="cahracterFolder-folderIcon" fontSize='large' classes={{ root: styles.character_icon }} />
             }
-            <Typography className={styles.folderNameText}>{name}</Typography>
+            <Typography data-testId="cahracterFolder-name" className={styles.folderNameText}>{name}</Typography>
         </Box>
     )
 }
