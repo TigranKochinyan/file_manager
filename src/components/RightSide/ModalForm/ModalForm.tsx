@@ -103,7 +103,7 @@ const ModalForm: FC<ModalFormProps> = ({ type, disabled }): ReactElement => {
             children: []
         })
         if(type === ItemType.EDIT_FILE) {
-            dispatch({type: 'EDIT_FILE', payload: {name: inputName, id: currentFolder.id, content: inputName}});
+            dispatch({type: 'EDIT_FILE', payload: {name: inputName, id: currentFolder.id, content: inputContent}});
         } else {
             dispatch({type: 'ADD_CHARACTER', payload: {folder: item}});
         }
