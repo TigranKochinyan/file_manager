@@ -17,7 +17,7 @@ import useTypedSelector from '../../../hooks/useTypedSelector';
 interface ActionButtonsProps {
     id: number,
     type: ItemType.FILE | ItemType.FOLDER;
-    selectedIds: number[],
+    selectedIds?: number[],
 }
 
 const ActionBttons: FC<ActionButtonsProps> = ({ id, type, selectedIds }): ReactElement => {
@@ -37,7 +37,7 @@ const ActionBttons: FC<ActionButtonsProps> = ({ id, type, selectedIds }): ReactE
         <Button
             variant="contained"
             onClick={handleClick}
-            startIcon={<KeyboardBackspaceIcon />}
+            startIcon={<KeyboardBackspaceIcon data-testid="actionsButtons-backIcon" />}
         />
         <Button
             variant="contained"

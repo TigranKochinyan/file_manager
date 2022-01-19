@@ -1,7 +1,6 @@
 import CharacterFolder from './CharacterFolder';
 import { render, screen } from '@testing-library/react';
 
-
 describe('CharacterFolder', () => {
     describe('testing name prop', () => {
         it('should rendering name text', () => {
@@ -36,7 +35,6 @@ describe('CharacterFolder', () => {
             />)
             const folderIcon = screen.getByTestId('FolderIcon')
             expect(folderIcon).toBeInTheDocument()
-            // cahracterFolder-folderIcon
         })
         it('test not empty icon', () => {
             render(<CharacterFolder
@@ -47,7 +45,6 @@ describe('CharacterFolder', () => {
             />)
             const folderIcon = screen.getByTestId('FolderOpenIcon')
             expect(folderIcon).toBeInTheDocument()
-            // cahracterFolder-folderIcon
         })
     })
 
@@ -61,8 +58,6 @@ describe('CharacterFolder', () => {
             />)
             const folderIcon = screen.getByTestId('FolderIcon')
             expect(folderIcon).toBeInTheDocument()
-            // cahracterFolder-folderIcon
         })
     })
-
 })

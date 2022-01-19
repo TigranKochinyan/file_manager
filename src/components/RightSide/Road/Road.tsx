@@ -23,7 +23,7 @@ const Road = (): ReactElement => {
     }, [location])
 
     return <Breadcrumbs classes={{ root: styles.bread, li: styles.li }} aria-label="breadcrumb">
-        <Link to='/'><HomeIcon/></Link>
+        <Link to='/'><HomeIcon data-testId='road-homeIcon' /></Link>
         {roads.map((road : {name: string, url: string}, index: number) => {
             if (index === roads.length - 1){
                 return <Typography key={road.url}>{road.name}</Typography>

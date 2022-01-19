@@ -44,9 +44,9 @@ const ModalForm: FC<ModalFormProps> = ({ type, disabled }): ReactElement => {
     const icon = useMemo((): JSX.Element => {
         switch (type) {
             case ItemType.FILE:
-                return <AttachFileIcon />
+                return <AttachFileIcon data-testid="modalForm-createNewFileIcon"/>
             case ItemType.FOLDER:
-                return <CreateNewFolderIcon />
+                return <CreateNewFolderIcon data-testid="modalForm-createNewFolderIcon" />
             default:
                 return <EditIcon />
         }
@@ -115,7 +115,7 @@ const ModalForm: FC<ModalFormProps> = ({ type, disabled }): ReactElement => {
     }
     
     return <Box>
-        <Button variant="contained" disabled={disabled} onClick={handleClickOpen}>
+        <Button variant="contained" disabled={disabled} data-testid='modalForm-button' onClick={handleClickOpen}>
             {icon}
         </Button>
         <Dialog open={open} onClose={handleClose}>
@@ -130,6 +130,7 @@ const ModalForm: FC<ModalFormProps> = ({ type, disabled }): ReactElement => {
                     value={inputName}
                     onChange={handleNameInputChange}
                     onKeyPress={handlePressEnterHandler}
+                    data-testId='modalForm-inputName'
                 />
                 {(type === ItemType.FILE || type === ItemType.EDIT_FILE) &&
                     <TextareaAutosize
@@ -145,7 +146,7 @@ const ModalForm: FC<ModalFormProps> = ({ type, disabled }): ReactElement => {
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose}>Cancel</Button>
-                <Button onClick={handleSubmit}>Create</Button>
+                <Button data-testid='modalForm-submitButton' onClick={handleSubmit}>Create</Button>
             </DialogActions>
         </Dialog>
     </Box>
