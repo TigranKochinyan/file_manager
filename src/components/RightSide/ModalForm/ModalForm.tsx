@@ -4,12 +4,12 @@ import { useDispatch } from 'react-redux';
 import { 
     Box,
     Button,
-    TextField,
     Dialog,
+    TextField,
+    DialogTitle,
     DialogActions,
     DialogContent,
     TextareaAutosize,
-    DialogTitle,
 } from '@mui/material';
 
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
@@ -37,16 +37,16 @@ const ModalForm: FC<ModalFormProps> = ({ type, disabled }): ReactElement => {
     const currentFolder = useTypedSelector((state) => state.currentItem);
     const foldersInfo = useTypedSelector((state) =>  state.data);
     
-    const [open, setOpen] = useState(false);
-    const [inputName, setInputName] = useState('');
-    const [inputContent, setInputContent] = useState('');
+    const [open, setOpen] = useState<boolean>(false);
+    const [inputName, setInputName] = useState<string>('');
+    const [inputContent, setInputContent] = useState<string>('');
 
     const icon = useMemo((): JSX.Element => {
         switch (type) {
             case ItemType.FILE:
-                return <AttachFileIcon />
+                return <AttachFileIcon data-testid="modalForm-createNewFileIcon"/>
             case ItemType.FOLDER:
-                return <CreateNewFolderIcon />
+                return <CreateNewFolderIcon data-testid="modalForm-createNewFolderIcon" />
             default:
                 return <EditIcon />
         }
@@ -78,40 +78,44 @@ const ModalForm: FC<ModalFormProps> = ({ type, disabled }): ReactElement => {
         setInputContent(event.target.value);
     }
 
+    
     const handleClickOpen = (): void => setOpen(true);
     const handleClose = (): void => setOpen(false);
-
+    
     const handleSubmit = (): void => {
         setOpen(false);
         const id = idGenerator(foldersInfo);
         let item = type === ItemType.FILE 
-            ? fileCretor({
-                id,
-                name: inputName,
-                type: ItemType.FILE,
-                parents: [...currentFolder.parents, currentFolder.id],
-                parentId: currentFolder.id || 0,
-                content: inputContent.trim()
-            })
-            : folderCretor({
-                id,
-                name: inputName,
-                type: ItemType.FOLDER,
-                parents: [...currentFolder.parents, currentFolder.id],
-                parentId: currentFolder.id || 0,
-                children: []
-            })
+        ? fileCretor({
+            id,
+            name: inputName,
+            type: ItemType.FILE,
+            parents: [...currentFolder.parents, currentFolder.id],
+            parentId: currentFolder.id || 0,
+            content: inputContent.trim()
+        })
+        : folderCretor({
+            id,
+            name: inputName,
+            type: ItemType.FOLDER,
+            parents: [...currentFolder.parents, currentFolder.id],
+            parentId: currentFolder.id || 0,
+            children: []
+        })
         if(type === ItemType.EDIT_FILE) {
-            dispatch({type: 'EDIT_FILE', payload: {name: inputName, id: currentFolder.id, content: inputName}});
+            dispatch({type: 'EDIT_FILE', payload: {name: inputName, id: currentFolder.id, content: inputContent}});
         } else {
             dispatch({type: 'ADD_CHARACTER', payload: {folder: item}});
         }
         setInputName('');
         setInputContent('');
     };
-
+    const handlePressEnterHandler = (event): void => {
+        event.key === 'Enter' && handleSubmit()
+    }
+    
     return <Box>
-        <Button variant="contained" disabled={disabled} onClick={handleClickOpen}>
+        <Button variant="contained" disabled={disabled} data-testid='modalForm-button' onClick={handleClickOpen}>
             {icon}
         </Button>
         <Dialog open={open} onClose={handleClose}>
@@ -125,6 +129,8 @@ const ModalForm: FC<ModalFormProps> = ({ type, disabled }): ReactElement => {
                     variant="standard"
                     value={inputName}
                     onChange={handleNameInputChange}
+                    onKeyPress={handlePressEnterHandler}
+                    data-testId='modalForm-inputName'
                 />
                 {(type === ItemType.FILE || type === ItemType.EDIT_FILE) &&
                     <TextareaAutosize
@@ -134,12 +140,13 @@ const ModalForm: FC<ModalFormProps> = ({ type, disabled }): ReactElement => {
                         placeholder="Write to file"
                         onChange={handleContentInputChange}
                         value={inputContent}
+                        onKeyPress={handlePressEnterHandler}
                     />
                 }
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose}>Cancel</Button>
-                <Button onClick={handleSubmit}>Create</Button>
+                <Button data-testid='modalForm-submitButton' onClick={handleSubmit}>Create</Button>
             </DialogActions>
         </Dialog>
     </Box>

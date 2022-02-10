@@ -1,6 +1,6 @@
 import { call, put, select } from 'redux-saga/effects';
 import { history } from '../../reducers';
-import { isEmptyObject, folderCretor, getIdFromPath } from '../../../utils';
+import { folderCretor, getIdFromPath } from '../../../utils';
 import { getDataFromFirebase } from '../../../api';
 import { FolderTypes, FileTypes } from '../../../types';
 

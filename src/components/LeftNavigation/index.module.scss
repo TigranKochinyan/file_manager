@@ -1,6 +1,6 @@
 .leftNavigation {
-    height: 80vh;
-    padding: 10px;
+    height: calc(100vh - 64px);
+    // padding: 10px;
     overflow-y: auto;
     background-color: #b0d2ef;
 }

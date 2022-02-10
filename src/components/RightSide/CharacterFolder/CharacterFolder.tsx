@@ -13,9 +13,7 @@ interface CharacterFolderProps {
 }
 
 const CharacterFolder: FC<CharacterFolderProps> = ({ name, isEmpty, id, handleClick }): ReactElement => {
-
-    const [isSelected, setIsSelected] = useState(false); //TODO add selecting functionality (maybe)
-
+    const [isSelected, setIsSelected] = useState<boolean>(false);
     const handleSelect = (event, id) => {
         if (event.ctrlKey) {
             setIsSelected(!isSelected)
@@ -26,7 +24,6 @@ const CharacterFolder: FC<CharacterFolderProps> = ({ name, isEmpty, id, handleCl
     return (
         <Box
         onClick={(event) => handleSelect(event, id)}
-        // onBlur={(e) => handleClick(e, id, true)}
         className={styles.character}
         data-selected={isSelected}
         tabIndex={0}
@@ -35,7 +32,7 @@ const CharacterFolder: FC<CharacterFolderProps> = ({ name, isEmpty, id, handleCl
                 ? <FolderIcon fontSize='large' classes={{ root: styles.character_icon }} />
                 : <FolderOpenIcon fontSize='large' classes={{ root: styles.character_icon }} />
             }
-            <Typography className={styles.folderNameText}>{name}</Typography>
+            <Typography data-testid="cahracterFolder-name" className={styles.folderNameText}>{name}</Typography>
         </Box>
     )
 }

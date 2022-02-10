@@ -1,8 +1,8 @@
 export interface FolderTypes {
-    id: number;
+    readonly id: number;
     name: string;
-    parentId: number;
-    type: 'folder';
+    readonly parentId: number;
+    readonly type: 'folder';
     children: number[];
-    parents: number[];
+    readonly parents: number[];
 }

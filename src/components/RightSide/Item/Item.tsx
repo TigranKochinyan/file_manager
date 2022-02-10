@@ -24,12 +24,15 @@ const Item: FC<ItemProps> = ({ id, handleSelectElement }): ReactElement | null =
         itemData.type === 'folder'
         ? 
         <CharacterFolder
+            data-testId="liop"
             name={itemData.name}
             id={itemData.id}
             isEmpty={!!itemData.children.length}
             handleClick={handleSelectElement}
+
         />
         : <CharacterFile
+            data-testid="liop1"
             name={itemData.name}
             id={itemData.id}
             selected={false}

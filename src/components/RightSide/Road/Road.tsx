@@ -8,8 +8,13 @@ import { Breadcrumbs, Typography } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import styles from './index.module.scss';
 
+interface RoadsTypes {
+    name: string;
+    url: string;
+}
+
 const Road = (): ReactElement => {
-    const [roads, setRoads] = useState([{name: '', url: ''}]);
+    const [roads, setRoads] = useState<RoadsTypes[]>([{name: '', url: ''}]);
     const location = useLocation();
 
     useEffect((): void => {
@@ -18,7 +23,7 @@ const Road = (): ReactElement => {
     }, [location])
 
     return <Breadcrumbs classes={{ root: styles.bread, li: styles.li }} aria-label="breadcrumb">
-        <Link to='/'><HomeIcon/></Link>
+        <Link to='/'><HomeIcon data-testId='road-homeIcon' /></Link>
         {roads.map((road : {name: string, url: string}, index: number) => {
             if (index === roads.length - 1){
                 return <Typography key={road.url}>{road.name}</Typography>
